@@ -46,3 +46,11 @@ console.log(sumTwoSmallestNumbers_4([15, 28, 4, 2, 43]), "Sum should be 6");
 console.log(sumTwoSmallestNumbers_4([3, 87, 45, 12, 7]), "Sum should be 10");
 console.log(sumTwoSmallestNumbers_4([23, 71, 33, 82, 1]), "Sum should be 24");
 console.log(sumTwoSmallestNumbers_4([52, 76, 14, 12, 4]), "Sum should be 16");
+
+const sumTwoSmallestNumbers_5 = a => (a = a.sort((x, y) => x - y))[0] + a[1];
+
+console.log(sumTwoSmallestNumbers_5([5, 8, 12, 19, 22]), "Sum should be 13");
+console.log(sumTwoSmallestNumbers_5([15, 28, 4, 2, 43]), "Sum should be 6");
+console.log(sumTwoSmallestNumbers_5([3, 87, 45, 12, 7]), "Sum should be 10");
+console.log(sumTwoSmallestNumbers_5([23, 71, 33, 82, 1]), "Sum should be 24");
+console.log(sumTwoSmallestNumbers_5([52, 76, 14, 12, 4]), "Sum should be 16");
