@@ -45,3 +45,13 @@ console.log(digPow_2(89, 1));
 console.log(digPow_2(92, 1));
 console.log(digPow_2(695, 2));
 console.log(digPow_2(46288, 3));
+
+function digPow_3(n, p) {
+    let x = String(n).split("").reduce((s, d, i) => s + Math.pow(+d, p + i), 0)
+    return x % n ? -1 : x / n
+}
+
+console.log(digPow_3(89, 1));
+console.log(digPow_3(92, 1));
+console.log(digPow_3(695, 2));
+console.log(digPow_3(46288, 3));
