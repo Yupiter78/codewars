@@ -51,8 +51,8 @@ console.log(accum_6("ZpglnRxqenU"), "/ Z-Pp-Ggg-Llll-Nnnnn-Rrrrrr-Xxxxxxx-Qqqqqq
 
 function accum_7(s) {
     return s.split('').map((item, index) => {
-        [head, ...rest] = item.repeat(index + 1).toLowerCase()
-        return head.toUpperCase().concat(...rest)
+        [head, ...rest] = item.repeat(index + 1).toLowerCase().split("");
+        return head.toUpperCase().concat(...rest);
     }).join('-')
 }
 
