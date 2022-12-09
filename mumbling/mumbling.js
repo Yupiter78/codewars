@@ -30,3 +30,6 @@ function accum_3(s) {
 }
 
 console.log(accum_3("ZpglnRxqenU"), "/ Z-Pp-Ggg-Llll-Nnnnn-Rrrrrr-Xxxxxxx-Qqqqqqqq-Eeeeeeeee-Nnnnnnnnnn-Uuuuuuuuuuu");
+
+const accum_4 = s =>
+    [...s].map((val, idx) => val.toUpperCase() + val.toLowerCase().repeat(idx)).join(`-`);
