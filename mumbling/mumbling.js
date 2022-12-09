@@ -18,3 +18,15 @@ console.log(accum("NyffsGeyylB"), "/ N-Yy-Fff-Ffff-Sssss-Gggggg-Eeeeeee-Yyyyyyyy
 console.log(accum("MjtkuBovqrU"), "/ M-Jj-Ttt-Kkkk-Uuuuu-Bbbbbb-Ooooooo-Vvvvvvvv-Qqqqqqqqq-Rrrrrrrrrr-Uuuuuuuuuuu");
 console.log(accum("EvidjUnokmM"), "/ E-Vv-Iii-Dddd-Jjjjj-Uuuuuu-Nnnnnnn-Oooooooo-Kkkkkkkkk-Mmmmmmmmmm-Mmmmmmmmmmm");
 console.log(accum("HbideVbxncC"), "/ H-Bb-Iii-Dddd-Eeeee-Vvvvvv-Bbbbbbb-Xxxxxxxx-Nnnnnnnnn-Cccccccccc-Ccccccccccc");
+
+function accum_2(s) {
+    return s.split('').map((c, i) => (c.toUpperCase() + c.toLowerCase().repeat(i))).join('-');
+}
+
+console.log(accum_2("ZpglnRxqenU"), "/ Z-Pp-Ggg-Llll-Nnnnn-Rrrrrr-Xxxxxxx-Qqqqqqqq-Eeeeeeeee-Nnnnnnnnnn-Uuuuuuuuuuu");
+
+function accum_3(s) {
+    return s.split('').map((x,index) => x.toUpperCase()+Array(index+1).join(x.toLowerCase())).join('-');
+}
+
+console.log(accum_3("ZpglnRxqenU"), "/ Z-Pp-Ggg-Llll-Nnnnn-Rrrrrr-Xxxxxxx-Qqqqqqqq-Eeeeeeeee-Nnnnnnnnnn-Uuuuuuuuuuu");
