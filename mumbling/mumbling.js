@@ -40,3 +40,20 @@ const reps = (c,i)=>c.toUpperCase() + c.repeat(i);
 const accum_5 = s => [...s.toLowerCase()].map(reps).join('-');
 
 console.log(accum_5("ZpglnRxqenU"), "/ Z-Pp-Ggg-Llll-Nnnnn-Rrrrrr-Xxxxxxx-Qqqqqqqq-Eeeeeeeee-Nnnnnnnnnn-Uuuuuuuuuuu");
+
+function accum_6(s) {
+    return (s.split('').map((el, i) => {
+        return el.toLocaleUpperCase() + (Array(i).fill(el.toLocaleLowerCase())).join('')
+    })).join('-')
+}
+
+console.log(accum_6("ZpglnRxqenU"), "/ Z-Pp-Ggg-Llll-Nnnnn-Rrrrrr-Xxxxxxx-Qqqqqqqq-Eeeeeeeee-Nnnnnnnnnn-Uuuuuuuuuuu");
+
+function accum_7(s) {
+    return s.split('').map((item, index) => {
+        [head, ...rest] = item.repeat(index + 1).toLowerCase()
+        return head.toUpperCase().concat(...rest)
+    }).join('-')
+}
+
+console.log(accum_7("ZpglnRxqenU"), "/ Z-Pp-Ggg-Llll-Nnnnn-Rrrrrr-Xxxxxxx-Qqqqqqqq-Eeeeeeeee-Nnnnnnnnnn-Uuuuuuuuuuu");
