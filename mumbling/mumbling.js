@@ -33,3 +33,10 @@ console.log(accum_3("ZpglnRxqenU"), "/ Z-Pp-Ggg-Llll-Nnnnn-Rrrrrr-Xxxxxxx-Qqqqqq
 
 const accum_4 = s =>
     [...s].map((val, idx) => val.toUpperCase() + val.toLowerCase().repeat(idx)).join(`-`);
+
+console.log(accum_4("ZpglnRxqenU"), "/ Z-Pp-Ggg-Llll-Nnnnn-Rrrrrr-Xxxxxxx-Qqqqqqqq-Eeeeeeeee-Nnnnnnnnnn-Uuuuuuuuuuu");
+
+const reps = (c,i)=>c.toUpperCase() + c.repeat(i);
+const accum_5 = s => [...s.toLowerCase()].map(reps).join('-');
+
+console.log(accum_5("ZpglnRxqenU"), "/ Z-Pp-Ggg-Llll-Nnnnn-Rrrrrr-Xxxxxxx-Qqqqqqqq-Eeeeeeeee-Nnnnnnnnnn-Uuuuuuuuuuu");
