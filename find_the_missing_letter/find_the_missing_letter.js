@@ -27,3 +27,16 @@ function findMissingLetter(array) {
 console.log(findMissingLetter(['a','b','c','d','f']), '/ e');
 console.log(findMissingLetter(['O','Q','R','S']), '/ P');
 
+function findMissingLetter_2(array) {
+    let check = array[0].codePointAt(0);
+    return array.reduce((prev, cur, i, arr) => {
+        if (arr[i].codePointAt(0) - check <= 1) {
+            check = array[i].codePointAt(0);
+            return "";
+        }
+        return String.fromCodePoint(check + 1);
+    }, "");
+}
+
+console.log(findMissingLetter_2(['a','b','c','d','f']), '/ e');
+console.log(findMissingLetter_2(['O','Q','R','S']), '/ P');
