@@ -42,3 +42,14 @@ console.log(findOutlier_2([1, 2, 3]), "2");
 console.log(findOutlier_2([2,6,8,10,3]), "3");
 console.log(findOutlier_2([0,0,3,0,0]), "3");
 console.log(findOutlier_2([1,1,0,1,1]), "0");
+
+function findOutlier_3(integers){
+    const isEven = integers.filter(i => i%2).length === 1;
+    return integers.find(i => isEven ? i%2 : !(i%2));
+}
+
+console.log(findOutlier_3([0, 1, 2]), "1");
+console.log(findOutlier_3([1, 2, 3]), "2");
+console.log(findOutlier_3([2,6,8,10,3]), "3");
+console.log(findOutlier_3([0,0,3,0,0]), "3");
+console.log(findOutlier_3([1,1,0,1,1]), "0");
