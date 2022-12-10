@@ -33,7 +33,7 @@ console.log(findOutlier([1,1,0,1,1]), "0");
 
 function findOutlier_2(integers){
     const evenNum = [], oddNum = [];
-    integers.forEach((num) => (num === 0 || num % 2 === 0) ? evenNum.push(num) : oddNum.push(num))
+    integers.forEach((num) => (num % 2 === 0) ? evenNum.push(num) : oddNum.push(num))
     return evenNum.length === 1 ? evenNum[0] : oddNum[0];
 }
 
