@@ -8,10 +8,10 @@ should be shifted, like in the original Rot13 "implementation".*/
 
 function rot13(message){
     return message.split("").map((item, i) => {
-        let code = item.codePointAt(0),
-            a = 97, z = 122, A = 65, Z = 90;
+        let code = item.codePointAt(0);
+        const a = 97, z = 122, A = 65, Z = 90;
         if (code>= A && code <= Z || code >= a && code <= z) {
-            let range = code >= a && code <= z ? 122 : 90;
+            let range = code >= a && code <= z ? z : Z;
             code = code + 13 > range ? code - 13 : code + 13;
             return String.fromCodePoint(code);
         } else {
@@ -22,17 +22,12 @@ function rot13(message){
 
 console.log("test", "/ grfg", rot13("test"));
 console.log("Test", "/ Grfg", rot13("Test"));
-console.log("az", "/ ", rot13("az"));
-console.log("AZ", "/ ", rot13("AZ"));
-
 
 const rot13_2 = str => str.replace(/[a-z]/gi, letter =>
     String.fromCharCode(letter.charCodeAt(0) + (letter.toLowerCase() <= 'm' ? 13: -13)));
 
-
 console.log("test", "/ grfg", rot13_2("test"));
 console.log("Test", "/ Grfg", rot13_2("Test"));
-
 
 function rot13_3(message){
     const codeA = 'A'.charCodeAt(0),
