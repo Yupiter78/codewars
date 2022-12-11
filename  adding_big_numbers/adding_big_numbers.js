@@ -31,7 +31,14 @@ function add_2 (a, b) {
     a = a.split('');
     b = b.split('');
     while (a.length || b.length || c) {
+        console.log("a, b: ", a, b);
+        console.log("~~a, ~~b: ", ~~a, ~~b);
+        console.log(`${a.length} || ${b.length} || ${c}: `, a.length || b.length || c);
+
         c += ~~a.pop() + ~~b.pop();
+        // c += a.pop() ^ 0 + b.pop() ^ 0;
+        // c += Math.floor((a.pop() || 0)) + Math.floor((b.pop() || 0));
+        console.log("c: ", c);
         res = c % 10 + res;
         c = c > 9;
     }
@@ -45,4 +52,68 @@ console.log(add_2("1372", "69"), "/ 1441");
 console.log(add_2("12", "456"), "/ 468");
 console.log(add_2("101", "100"), "/ 201");
 console.log(add_2('63829983432984289347293874', '90938498237058927340892374089'),
+    "/ 91002328220491911630239667963");
+
+
+function add_3(a, b) {
+    a = a.split("").reverse().join("");
+    b = b.split("").reverse().join("");
+    let lenA = a.length,
+    lenB = b.length,
+    bit = 0,
+    cur = 0;
+    const temp = [];
+
+    for(let i = 0; i < Math.max(lenA, lenB); i++){
+        if(i >= lenA){
+            cur = Number(b[i]);
+        }else if(i >= lenB){
+            cur = Number(a[i]);
+        }else{
+            cur = Number(a[i]) + Number(b[i]);
+        }
+        temp.push((cur + bit) % 10);
+        bit = Math.floor(( cur + bit) / 10);
+    }
+    console.log("bit: ", bit);
+    if (bit === 1){
+        temp.push(1);
+    }
+    let ans = "";
+    for(let i = temp.length - 1; i >= 0; i--) {
+        ans += temp[i];
+    }
+    return ans;
+}
+
+console.log(add_3("1", "1"), "/ 2");
+console.log(add_3("123", "456"), "/ 579");
+console.log(add_3("888", "222"), "/ 1110");
+console.log(add_3("1372", "69"), "/ 1441");
+console.log(add_3("12", "456"), "/ 468");
+console.log(add_3("101", "100"), "/ 201");
+console.log(add_3('63829983432984289347293874', '90938498237058927340892374089'),
+    "/ 91002328220491911630239667963");
+
+function add_4(a, b) {
+    const numArr1 = [...a].reverse(), numArr2 = [...b].reverse(),
+        largeArr = numArr1.length >= numArr2.length ? numArr1 : numArr2,
+        smallerArr = largeArr === numArr1 ? numArr2 : numArr1;
+    let carryBit = 0,
+        strNum = largeArr.reduce((prev, cur, i, arr) => {
+            let sum = Number(arr[i]) + Number(smallerArr[i] || 0) + carryBit,
+                result = sum % 10;
+            carryBit = (sum / 10) ^ 0;
+            return prev + result;
+        }, "");
+    return (carryBit ? strNum + carryBit : strNum ).split("").reverse().join("");
+}
+
+console.log(add_4("1", "1"), "/ 2");
+console.log(add_4("123", "456"), "/ 579");
+console.log(add_4("888", "222"), "/ 1110");
+console.log(add_4("1372", "69"), "/ 1441");
+console.log(add_4("12", "456"), "/ 468");
+console.log(add_4("101", "100"), "/ 201");
+console.log(add_4('63829983432984289347293874', '90938498237058927340892374089'),
     "/ 91002328220491911630239667963");
