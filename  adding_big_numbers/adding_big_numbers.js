@@ -138,3 +138,36 @@ console.log(add_5("101", "100"), "/ 201");
 console.log(add_5('63829983432984289347293874', '90938498237058927340892374089'),
     "/ 91002328220491911630239667963");
 
+function add_6(a, b) {
+    const sum = +a.slice(-1) + +b.slice(-1) + +(arguments[2] || '').slice(0, 1);
+    if (a.length <= 1 && b.length <= 1) return sum + (arguments[2] || '').slice(1);
+    let acc = '' + ~~(sum / 10) + sum % 10 + (arguments[2] || '').slice(1);
+    return add(a.slice(0, -1), b.slice(0, -1), acc)
+}
+
+console.log(add_6("1", "1"), "/ 2");
+console.log(add_6("123", "456"), "/ 579");
+console.log(add_6("888", "222"), "/ 1110");
+console.log(add_6("1372", "69"), "/ 1441");
+console.log(add_6("12", "456"), "/ 468");
+console.log(add_6("101", "100"), "/ 201");
+console.log(add_6('63829983432984289347293874', '90938498237058927340892374089'),
+    "/ 91002328220491911630239667963");
+
+
+const add_7 = (a, b) => {
+    let s;
+    return ((s = ((a = a.split("")).length > (b = b.split("")).length ? a : b)
+        .reduceRight(s => ({s: (s.c += ~~a.pop() + ~~b.pop()) % 10 + s.s, c: ~~(s.c / 10)}),
+            {s: "", c: 0})).c === 0 ? "" : s.c) + s.s;
+}
+
+console.log(add_7("1", "1"), "/ 2");
+console.log(add_7("123", "456"), "/ 579");
+console.log(add_7("888", "222"), "/ 1110");
+console.log(add_7("1372", "69"), "/ 1441");
+console.log(add_7("12", "456"), "/ 468");
+console.log(add_7("101", "100"), "/ 201");
+console.log(add_7('63829983432984289347293874', '90938498237058927340892374089'),
+    "/ 91002328220491911630239667963");
+
