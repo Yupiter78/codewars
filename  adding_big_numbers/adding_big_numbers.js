@@ -117,3 +117,24 @@ console.log(add_4("12", "456"), "/ 468");
 console.log(add_4("101", "100"), "/ 201");
 console.log(add_4('63829983432984289347293874', '90938498237058927340892374089'),
     "/ 91002328220491911630239667963");
+
+
+const add_5 = (a, b) =>
+    ((a, b, c) => [...a]
+        .reduceRight((pre, val, idx) => {
+            console.log("a: ", a);
+            console.log("b: ", b);
+            console.log("c: ", c);
+            return (sum => (c = sum / 10 ^ 0, sum % 10 + pre))(+val + +b[idx] + c)
+        }, ``).replace(/^0+/, ``))
+    (a.padStart(Math.max(a.length, b.length) + 1, `0`), b.padStart(Math.max(a.length, b.length) + 1, `0`), 0);
+
+console.log(add_5("1", "1"), "/ 2");
+console.log(add_5("123", "456"), "/ 579");
+console.log(add_5("888", "222"), "/ 1110");
+console.log(add_5("1372", "69"), "/ 1441");
+console.log(add_5("12", "456"), "/ 468");
+console.log(add_5("101", "100"), "/ 201");
+console.log(add_5('63829983432984289347293874', '90938498237058927340892374089'),
+    "/ 91002328220491911630239667963");
+
