@@ -72,16 +72,15 @@ function listSquared(m, n) {
 function listSquared_2(m, n) {
     const result = [];
     for (let i = m; i <= n; i++) {
-        const diff = [];
+        const divisors = [];
         for (let j = 1; j <= n; j++) {
            if (i % j === 0) {
-               diff.push(j);
+               divisors.push(j);
            }
-        } console.log(`diff ${i} :`, diff);
-        const sum = diff.reduce((prev, cur) => prev + (cur ** 2), 0);
-        let quad = sum ** 0.5;
-        if (quad === ~~quad) {
-            console.log("quar: ", quad, "sum:", sum);
+        }
+        const sum = divisors.reduce((prev, cur) => prev + (cur ** 2), 0);
+        let square = sum ** 0.5;
+        if (square === ~~square) {
             result.push([i, sum]);
         }
     }
