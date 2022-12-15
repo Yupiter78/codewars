@@ -57,20 +57,38 @@ function listSquared(m, n) {
     return res;
 }
 
-console.log(listSquared(1, 250), "/", [[1, 1], [42, 2500], [246, 84100]])
-console.log(listSquared(42, 250), "/", [[42, 2500], [246, 84100]])
-console.log(listSquared(250, 500), "/", [[287, 84100]])
+// console.log(listSquared(1, 250), "/", [[1, 1], [42, 2500], [246, 84100]])
+// console.log(listSquared(42, 250), "/", [[42, 2500], [246, 84100]])
+// console.log(listSquared(250, 500), "/", [[287, 84100]])
 
 
-/*пройдите по всем числам от mдоn;
+/*пройдите по всем числам от m до n;
 найдите все делители текущего числа (i);
 возведите в квадрат все делители и сложите их;
 проверьте, является ли полученное sum число квадратным,
 и если это так, сохраните number (i) и the sum в массив;
 */
 
-function listSquared_2(m, n) {}
+function listSquared_2(m, n) {
+    const result = [];
+    for (let i = m; i <= n; i++) {
+        const diff = [];
+        for (let j = m; j <= n; j++) {
+           if (i % j === 0) {
+               diff.push(j);
+           }
+        } console.log(`diff ${i} :`, diff);
+        const sum = diff.reduce((prev, cur) => prev + (cur ** 2), 0);
+        let quad = sum ** 0.5;
+        if (quad === ~~quad) {
+            console.log("quar: ", quad, "sum:", sum);
+            result.push([i, sum]);
+        }
+    }
+    return result;
+}
 
-console.log(listSquared_2(1, 250), "/", [[1, 1], [42, 2500], [246, 84100]])
+
+// console.log(listSquared_2(1, 250), "/", [[1, 1], [42, 2500], [246, 84100]])
 console.log(listSquared_2(42, 250), "/", [[42, 2500], [246, 84100]])
-console.log(listSquared_2(250, 500), "/", [[287, 84100]])
+// console.log(listSquared_2(250, 500), "/", [[287, 84100]])
