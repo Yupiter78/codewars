@@ -73,7 +73,7 @@ function listSquared_2(m, n) {
     const result = [];
     for (let i = m; i <= n; i++) {
         const diff = [];
-        for (let j = m; j <= n; j++) {
+        for (let j = 1; j <= n; j++) {
            if (i % j === 0) {
                diff.push(j);
            }
