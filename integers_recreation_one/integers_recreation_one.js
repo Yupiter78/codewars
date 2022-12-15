@@ -91,3 +91,15 @@ function listSquared_2(m, n) {
 // console.log(listSquared_2(1, 250), "/", [[1, 1], [42, 2500], [246, 84100]])
 console.log(listSquared_2(42, 250), "/", [[42, 2500], [246, 84100]])
 // console.log(listSquared_2(250, 500), "/", [[287, 84100]])
+
+const listSquared_3 = (m, n) => {
+    const res = [];
+    for (let i = m; i <= n; i++) {
+        let sum = 0;
+        for (let j = 1; j <= n; j++) {
+            if (!(i % j)) sum += j ** 2;
+        }
+        if (Number.isInteger(sum ** .5)) res.push([i, sum]);
+    }
+    return res;
+};
