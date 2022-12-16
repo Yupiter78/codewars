@@ -173,4 +173,37 @@ console.log(helper_8.pageItemCount(3), "/ helper_8:  2");
 
 const helper_9 = new PaginationHelper_3(collection_3, 1);
 
-console.log(helper_9.pageItemCount(-1), "/ helper_9:  -1")
+console.log(helper_9.pageItemCount(-1), "/ helper_9:  -1");
+
+class PaginationHelper_4 {
+    constructor(collection, itemsPerPage) {
+        this.collection = collection, this.len = this.collection.length, this.ipp = itemsPerPage;
+    }
+    itemCount() {return this.len;}
+    pageCount() {return Math.ceil(this.len / this.ipp);}
+    pageItemCount(pageIndex) {
+        let pc = this.pageCount();
+        return pc <= pageIndex || pageIndex < 0 ? -1 : pc - 1 === pageIndex ? this.len % this.ipp : this.ipp;
+    }
+    pageIndex(itemIndex) {
+        return this.len <= itemIndex || itemIndex < 0 ? -1 : Math.floor(itemIndex / this.ipp);
+    }
+}
+
+
+const helper_10 = new PaginationHelper_4(collection, 10)
+
+console.log(helper_10.pageCount(), "/ 3");
+console.log(helper_10.itemCount(), "/ 24");
+console.log(helper_10.pageItemCount(2), "/ 4");
+console.log(helper_10.pageIndex(22), "/ 2");
+
+
+const helper_11 = new PaginationHelper_4(collection_2, 2);
+
+console.log(helper_11.pageItemCount(3), "/ helper_8:  2");
+
+
+const helper_12 = new PaginationHelper_4(collection_3, 1);
+
+console.log(helper_12.pageItemCount(-1), "/ helper_9:  -1");
