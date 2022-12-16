@@ -24,7 +24,7 @@ helper.pageIndex(-10); //should == -1
 
 class PaginationHelper {
     constructor(collection, itemsPerPage) {
-        // The constructor takes in an array of items and a integer indicating how many
+        // The constructor takes in an array of items and an integer indicating how many
         // items fit within a single page
         this.collection = collection;
         this.itemsPerPage = itemsPerPage;
@@ -177,13 +177,15 @@ console.log(helper_9.pageItemCount(-1), "/ helper_9:  -1");
 
 class PaginationHelper_4 {
     constructor(collection, itemsPerPage) {
-        this.collection = collection, this.len = this.collection.length, this.ipp = itemsPerPage;
+        this.collection = collection;
+        this.ipp = itemsPerPage;
+        this.len = this.collection.length;
     }
     itemCount() {return this.len;}
     pageCount() {return Math.ceil(this.len / this.ipp);}
     pageItemCount(pageIndex) {
         let pc = this.pageCount();
-        return pc <= pageIndex || pageIndex < 0 ? -1 : pc - 1 === pageIndex ? this.len % this.ipp : this.ipp;
+        return pc <= pageIndex || pageIndex < 0 ? -1 : pc - 1 === pageIndex && this.len % this.ipp !== 0 ? this.len % this.ipp : this.ipp;
     }
     pageIndex(itemIndex) {
         return this.len <= itemIndex || itemIndex < 0 ? -1 : Math.floor(itemIndex / this.ipp);
