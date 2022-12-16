@@ -104,7 +104,7 @@ class PaginationHelper_2 {
     }
 }
 
-const helper_4 = new PaginationHelper(collection, 10)
+const helper_4 = new PaginationHelper_2(collection, 10)
 
 console.log(helper_4.pageCount(), "/ 3");
 console.log(helper_4.itemCount(), "/ 24");
@@ -113,12 +113,64 @@ console.log(helper_4.pageItemCount(2), "/ 4");
 console.log(helper_4.pageIndex(22), "/ 2");
 
 
-const helper_5 = new PaginationHelper(collection_2, 2);
+const helper_5 = new PaginationHelper_2(collection_2, 2);
 
 
-console.log(helper_5.pageItemCount(3), "/ helper_2:  2");
+console.log(helper_5.pageItemCount(3), "/ helper_5:  2");
 
 
-const helper_6 = new PaginationHelper(collection_3, 1);
+const helper_6 = new PaginationHelper_2(collection_3, 1);
 
-console.log(helper_6.pageItemCount(-1), "/ helper_3:  -1")
+console.log(helper_6.pageItemCount(-1), "/ helper_6:  -1")
+
+class PaginationHelper_3 {
+    constructor(collection, itemsPerPage){
+        this.collection = collection;
+        this.itemsPerPage = itemsPerPage;
+    }
+    format(tempArray = []) {
+        for (let i = 0, j = collection.length; i < j; i += this.itemsPerPage)
+            tempArray.push(this.collection.slice(i, i + this.itemsPerPage));
+        return tempArray;
+    }
+    pageCount () {
+        return this.format().length;
+    }
+
+    pageItemCount (pageIndex = 0) {
+        try {
+            return this.format()[pageIndex].length
+        } catch(e) {
+            return -1;
+        }
+    }
+
+    pageIndex (itemIndex) {
+        if (itemIndex >= this.collection.length || itemIndex < 0) return -1;
+        return ~~(itemIndex / this.itemsPerPage);
+    }
+    itemCount = function() {
+        return this.collection.length;
+    }
+}
+
+// PaginationHelper.prototype.itemCount = function() {
+//     return this.collection.length;
+// }
+
+const helper_7 = new PaginationHelper_3(collection, 10)
+
+console.log(helper_7.pageCount(), "/ 3");
+console.log(helper_7.itemCount(), "/ 24");
+console.log(helper_7.pageItemCount(2), "/ 4");
+console.log(helper_7.pageIndex(22), "/ 2");
+
+
+const helper_8 = new PaginationHelper_3(collection_2, 2);
+
+console.log(helper_8.pageItemCount(3), "/ helper_8:  2");
+
+
+const helper_9 = new PaginationHelper_3(collection_3, 1);
+
+console.log(helper_9.pageItemCount(-1), "/ helper_9:  -1")
