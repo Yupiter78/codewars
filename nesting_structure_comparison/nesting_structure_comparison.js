@@ -200,6 +200,8 @@ console.log( [1,2].sameStructureAs_6([[3],3]), "[1,2] not same as [[3],3]" );
 
 Array.prototype.sameStructureAs_7 = function (other) {
     const arrayMap = arr => JSON.stringify(!Array.isArray(arr) ? 1 : arr.map(arrayMap));
+    console.log("arrayMap(this):", arrayMap(this), "arrayMap(other):",
+        arrayMap(other), arrayMap(this) === arrayMap(other));
     return arrayMap(this) === arrayMap(other);
 }
 
@@ -221,3 +223,69 @@ console.log([].sameStructureAs_7({}), "[] not same as {}");
 console.log([1,'[',']'].sameStructureAs_7(['[',']',1]), "[1,'[',']'] same as ['[',']',1]");
 
 console.log( [1,2].sameStructureAs_7([[3],3]), "[1,2] not same as [[3],3]" );
+
+
+Array.prototype.structToString = function() {
+    return 'in' + this.map(function(v) {
+        return Array.isArray(v) ? v.structToString() : 'v';
+    }).join('') + 'out';
+};
+Array.prototype.sameStructureAs_8 = function(other) {
+    if (Array.isArray(other)) {
+        console.log("this.structToString():", this.structToString());
+    }
+
+    return Array.isArray(other) ? this.structToString() === other.structToString() : false;
+};
+
+
+console.log('________________NEXT_________________');
+console.log([1,1,1].sameStructureAs_8([2,2,2]), "[1,1,1] same as [2,2,2]");
+
+console.log([1,[1,1]].sameStructureAs_8([2,[2,2]]), "[1,[1,1]] same as [2,[2,2]]");
+console.log([1,[1,1]].sameStructureAs_8([[2,2],2]), "[1,[1,1]] not same as [[2,2],2]");
+console.log([1,[1,1]].sameStructureAs_8([2,[2]]), "[1,[1,1]] not same as [2,[2]]");
+
+console.log([[[],[]]].sameStructureAs_8([[[],[]]]), "[[[],[]]] same as [[[],[]]]");
+console.log([[[],[]]].sameStructureAs_8([[1,1]]), "[[[],[]]] not same as [[1,1]]");
+
+console.log([1,[[[1]]]].sameStructureAs_8([2,[[[2]]]]), "[1,[[[1]]]] same as [2,[[[2]]]]");
+
+console.log([].sameStructureAs_8(1), "[] not same as 1");
+console.log([].sameStructureAs_8({}), "[] not same as {}");
+//
+console.log([1,'[',']'].sameStructureAs_8(['[',']',1]), "[1,'[',']'] same as ['[',']',1]");
+
+console.log( [1,2].sameStructureAs_8([[3],3]), "[1,2] not same as [[3],3]" );
+
+
+Array.prototype.sameStructureAs_9 = function (other) {
+    function normalize(array) {
+        return array.map(e => Array.isArray(e) ? [normalize(e)] : ".");
+    }
+
+    if (Array.isArray(other)) {
+        console.log("JSON.stringify(normalize(this))", JSON.stringify(normalize(this)), "JSON.stringify(normalize(other)):", JSON.stringify(normalize(other)));
+        return JSON.stringify(normalize(this)) === JSON.stringify(normalize(other));
+    }
+    return false;
+};
+
+console.log('________________NEXT_________________');
+console.log([1,1,1].sameStructureAs_9([2,2,2]), "[1,1,1] same as [2,2,2]");
+
+console.log([1,[1,1]].sameStructureAs_9([2,[2,2]]), "[1,[1,1]] same as [2,[2,2]]");
+console.log([1,[1,1]].sameStructureAs_9([[2,2],2]), "[1,[1,1]] not same as [[2,2],2]");
+console.log([1,[1,1]].sameStructureAs_9([2,[2]]), "[1,[1,1]] not same as [2,[2]]");
+
+console.log([[[],[]]].sameStructureAs_9([[[],[]]]), "[[[],[]]] same as [[[],[]]]");
+console.log([[[],[]]].sameStructureAs_9([[1,1]]), "[[[],[]]] not same as [[1,1]]");
+
+console.log([1,[[[1]]]].sameStructureAs_9([2,[[[2]]]]), "[1,[[[1]]]] same as [2,[[[2]]]]");
+
+console.log([].sameStructureAs_9(1), "[] not same as 1");
+console.log([].sameStructureAs_9({}), "[] not same as {}");
+//
+console.log([1,'[',']'].sameStructureAs_9(['[',']',1]), "[1,'[',']'] same as ['[',']',1]");
+
+console.log( [1,2].sameStructureAs_9([[3],3]), "[1,2] not same as [[3],3]" );
