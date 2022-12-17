@@ -289,3 +289,27 @@ console.log([].sameStructureAs_9({}), "[] not same as {}");
 console.log([1,'[',']'].sameStructureAs_9(['[',']',1]), "[1,'[',']'] same as ['[',']',1]");
 
 console.log( [1,2].sameStructureAs_9([[3],3]), "[1,2] not same as [[3],3]" );
+
+Array.prototype.sameStructureAs_10 = function (other) {
+    return JSON.stringify(other).replace(/[0-9]|\"\[\"|\"\]\"/g,"*") ===
+        JSON.stringify(this).replace(/[0-9]|\"\[\"|\"\]\"/g,"*");
+};
+
+console.log('________________NEXT_________________');
+console.log([1,1,1].sameStructureAs_10([2,2,2]), "[1,1,1] same as [2,2,2]");
+
+console.log([1,[1,1]].sameStructureAs_10([2,[2,2]]), "[1,[1,1]] same as [2,[2,2]]");
+console.log([1,[1,1]].sameStructureAs_10([[2,2],2]), "[1,[1,1]] not same as [[2,2],2]");
+console.log([1,[1,1]].sameStructureAs_10([2,[2]]), "[1,[1,1]] not same as [2,[2]]");
+
+console.log([[[],[]]].sameStructureAs_10([[[],[]]]), "[[[],[]]] same as [[[],[]]]");
+console.log([[[],[]]].sameStructureAs_10([[1,1]]), "[[[],[]]] not same as [[1,1]]");
+
+console.log([1,[[[1]]]].sameStructureAs_10([2,[[[2]]]]), "[1,[[[1]]]] same as [2,[[[2]]]]");
+
+console.log([].sameStructureAs_10(1), "[] not same as 1");
+console.log([].sameStructureAs_10({}), "[] not same as {}");
+//
+console.log([1,'[',']'].sameStructureAs_10(['[',']',1]), "[1,'[',']'] same as ['[',']',1]");
+
+console.log( [1,2].sameStructureAs_10([[3],3]), "[1,2] not same as [[3],3]" );
