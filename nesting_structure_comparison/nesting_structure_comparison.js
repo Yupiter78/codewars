@@ -91,3 +91,56 @@ console.log([].sameStructureAs_2({}), "[] not same as {}");
 console.log([1,'[',']'].sameStructureAs_2(['[',']',1]), "[1,'[',']'] same as ['[',']',1]");
 
 console.log( [1,2].sameStructureAs_2([[3],3]), "[1,2] not same as [[3],3]" );
+
+
+Array.prototype.sameStructureAs_3 = function(other) {
+    return this.length === other.length && this.every((value, index) => Array.isArray(value) ?
+        value.sameStructureAs_3(other[index]) : Array.isArray(value) === Array.isArray(other[index]));
+}
+
+console.log('________________NEXT_________________');
+console.log([1,1,1].sameStructureAs_3([2,2,2]), "[1,1,1] same as [2,2,2]");
+
+console.log([1,[1,1]].sameStructureAs_3([2,[2,2]]), "[1,[1,1]] same as [2,[2,2]]");
+console.log([1,[1,1]].sameStructureAs_3([[2,2],2]), "[1,[1,1]] not same as [[2,2],2]");
+console.log([1,[1,1]].sameStructureAs_3([2,[2]]), "[1,[1,1]] not same as [2,[2]]");
+
+console.log([[[],[]]].sameStructureAs_3([[[],[]]]), "[[[],[]]] same as [[[],[]]]");
+console.log([[[],[]]].sameStructureAs_3([[1,1]]), "[[[],[]]] not same as [[1,1]]");
+
+console.log([1,[[[1]]]].sameStructureAs_3([2,[[[2]]]]), "[1,[[[1]]]] same as [2,[[[2]]]]");
+
+console.log([].sameStructureAs_3(1), "[] not same as 1");
+console.log([].sameStructureAs_3({}), "[] not same as {}");
+//
+console.log([1,'[',']'].sameStructureAs_3(['[',']',1]), "[1,'[',']'] same as ['[',']',1]");
+
+console.log( [1,2].sameStructureAs_3([[3],3]), "[1,2] not same as [[3],3]" );
+
+
+Array.prototype.sameStructureAs_4 = function (other) {
+    return Array.isArray(other) && this.length === other.length && this.every(function (a, i) {
+        let b = other[i];
+        return Array.isArray(a) ? a.sameStructureAs(b) : Array.isArray(a) === Array.isArray(b);
+    });
+};
+
+console.log('________________NEXT_________________');
+console.log([1,1,1].sameStructureAs_4([2,2,2]), "[1,1,1] same as [2,2,2]");
+
+console.log([1,[1,1]].sameStructureAs_4([2,[2,2]]), "[1,[1,1]] same as [2,[2,2]]");
+console.log([1,[1,1]].sameStructureAs_4([[2,2],2]), "[1,[1,1]] not same as [[2,2],2]");
+console.log([1,[1,1]].sameStructureAs_4([2,[2]]), "[1,[1,1]] not same as [2,[2]]");
+
+console.log([[[],[]]].sameStructureAs_4([[[],[]]]), "[[[],[]]] same as [[[],[]]]");
+console.log([[[],[]]].sameStructureAs_4([[1,1]]), "[[[],[]]] not same as [[1,1]]");
+
+console.log([1,[[[1]]]].sameStructureAs_4([2,[[[2]]]]), "[1,[[[1]]]] same as [2,[[[2]]]]");
+
+console.log([].sameStructureAs_4(1), "[] not same as 1");
+console.log([].sameStructureAs_4({}), "[] not same as {}");
+//
+console.log([1,'[',']'].sameStructureAs_4(['[',']',1]), "[1,'[',']'] same as ['[',']',1]");
+
+console.log( [1,2].sameStructureAs_4([[3],3]), "[1,2] not same as [[3],3]" );
+
