@@ -23,3 +23,10 @@ function pigIt_2(str){
 
 console.log(pigIt_2('Pig latin is cool !'),'/ igPay atinlay siay oolcay !');
 console.log(pigIt_2('This is my string'),'/ hisTay siay ymay tringsay');
+
+function pigIt_3(str){
+    return str.replace(/[a-z]+/gi, word => word.slice(1) + word[0] + 'ay' );
+}
+
+console.log(pigIt_3('Pig latin is cool !'),'/ igPay atinlay siay oolcay !');
+console.log(pigIt_3('This is my string'),'/ hisTay siay ymay tringsay');
