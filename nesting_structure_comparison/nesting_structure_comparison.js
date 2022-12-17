@@ -55,3 +55,39 @@ Array.prototype.sameStructureAs = function (other) {
 
         console.log( [1,2].sameStructureAs([[3],3]), "[1,2] not same as [[3],3]" );
 
+
+Array.prototype.sameStructureAs_2 = function (other) {
+    if (!Array.isArray(other) || this.length !== other.length)
+        return false;
+
+    for(let i = 0; i < this.length; ++i) {
+        if (Array.isArray(this[i])) {
+            if (!this[i].sameStructureAs(other[i])) {
+                return false;
+            }
+        } else if (Array.isArray(other[i])) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
+console.log('________________NEXT_________________');
+console.log([1,1,1].sameStructureAs_2([2,2,2]), "[1,1,1] same as [2,2,2]");
+
+console.log([1,[1,1]].sameStructureAs_2([2,[2,2]]), "[1,[1,1]] same as [2,[2,2]]");
+console.log([1,[1,1]].sameStructureAs_2([[2,2],2]), "[1,[1,1]] not same as [[2,2],2]");
+console.log([1,[1,1]].sameStructureAs_2([2,[2]]), "[1,[1,1]] not same as [2,[2]]");
+
+console.log([[[],[]]].sameStructureAs_2([[[],[]]]), "[[[],[]]] same as [[[],[]]]");
+console.log([[[],[]]].sameStructureAs_2([[1,1]]), "[[[],[]]] not same as [[1,1]]");
+
+console.log([1,[[[1]]]].sameStructureAs_2([2,[[[2]]]]), "[1,[[[1]]]] same as [2,[[[2]]]]");
+
+console.log([].sameStructureAs_2(1), "[] not same as 1");
+console.log([].sameStructureAs_2({}), "[] not same as {}");
+//
+console.log([1,'[',']'].sameStructureAs_2(['[',']',1]), "[1,'[',']'] same as ['[',']',1]");
+
+console.log( [1,2].sameStructureAs_2([[3],3]), "[1,2] not same as [[3],3]" );
