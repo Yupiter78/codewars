@@ -39,3 +39,29 @@ function permutations(string) {
 console.log(permutations('a'), ['a']);
 console.log(permutations('ab'), ['ab', 'ba']);
 console.log(permutations('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
+
+
+function solution(curStr, lettersArr, resultSet) {
+    if (lettersArr.length === 1) {
+        // сохраним результат
+        resultSet.add(curStr + lettersArr[0]);
+    }
+    for (let i = 0; i < lettersArr.length; i++) {
+        // добавим букву к строке
+        let updatedStr = curStr + lettersArr[i];
+        // массив оставшихся букв
+        let updatedArr = lettersArr.slice(0, i).concat(lettersArr.slice(i + 1, lettersArr.length));
+        solution(updatedStr, updatedArr, resultSet);
+    }
+}
+
+function permutations_2(string) {
+    let resultSet = new Set();
+    solution('', string, resultSet);
+    return [...resultSet];
+}
+
+console.log("__________NEXT___________")
+console.log(permutations_2('a'), ['a']);
+console.log(permutations_2('ab'), ['ab', 'ba']);
+console.log(permutations_2('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
