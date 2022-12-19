@@ -15,7 +15,7 @@ The order of the permutations doesn't matter.
 */
 
 
-function permutations(string) {
+function permutations_4(string) {
     const arrChar = string.split("");
     let len = arrChar.length,
         words = [];
@@ -36,9 +36,9 @@ function permutations(string) {
     return [...new Set(words)];
 }
 
-console.log(permutations('a'), ['a']);
-console.log(permutations('ab'), ['ab', 'ba']);
-console.log(permutations('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
+console.log(permutations_4('a'), ['a']);
+console.log(permutations_4('ab'), ['ab', 'ba']);
+console.log(permutations_4('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
 
 
 function solution(curStr, lettersArr, resultSet) {
@@ -65,3 +65,70 @@ console.log("__________NEXT___________")
 console.log(permutations_2('a'), ['a']);
 console.log(permutations_2('ab'), ['ab', 'ba']);
 console.log(permutations_2('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
+
+let permutations_3 = (s) => {
+
+    if (s.length <= 1) {
+        console.log(`RETURN ${s}`);
+        return [s];
+    }
+
+    let step = (c, index) => {
+        console.log("c in step:", c, "INDEX:", index);
+        let symbol = permutations_3(s.replace(c, ''));
+        console.log("symbol:", symbol);
+        return symbol.map((_, i) => {
+            console.log(`_iteration_SYMBOL_${i}_:`, _);
+           return _ + c
+        })
+    };
+    console.log(`new Set(__${s}__)`, [...new Set(s)]);
+    return [].concat(...[...new Set(s)].map(step));
+};
+
+console.log("__________NEXT___________")
+// console.log(permutations_3('a'), ['a']);
+// console.log(permutations_3('ab'), ['ab', 'ba']);
+// console.log(permutations_3('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
+
+
+function permutations(str) {
+    if (str.length <= 1) return [str];
+    const step = char => permutations(str.replace(char, "")).map(item => item + char);
+    return Array.prototype.concat(...[...new Set(str)].map(step));
+}
+
+console.log("__________NEXT___________")
+console.log(permutations('a'), ['a']);
+console.log(permutations('ab'), ['ab', 'ba']);
+console.log(permutations('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
+
+const permutations_5 = string =>
+    string.length < 2 ? [string] : [...string].reduce((pre, val, idx) =>
+        string.indexOf(val) === idx ? [...pre, ...permutations(string.slice(0, idx) +
+            string.slice(idx + 1)).map(v => val + v)] : pre, []);
+
+console.log("__________NEXT___________")
+console.log(permutations_5('a'), ['a']);
+console.log(permutations_5('ab'), ['ab', 'ba']);
+console.log(permutations_5('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
+
+function permutations_6(string) {
+    if (string.length <= 1) {
+        return [string];
+    }
+    let perms = [];
+    for (let i = 0; i < string.length; i++) {
+        perms = perms.concat(permutations(string.substring(0, i) + string.substring(i + 1)).map(function(e) {
+            return string[i] + e;
+        }).filter(function(e) {
+            return perms.indexOf(e) === -1;
+        }));
+    }
+    return perms;
+}
+
+console.log("__________NEXT___________")
+console.log(permutations_5('a'), ['a']);
+console.log(permutations_5('ab'), ['ab', 'ba']);
+console.log(permutations_5('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
