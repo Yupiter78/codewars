@@ -119,7 +119,7 @@ function permutations_6(string) {
     }
     let perms = [];
     for (let i = 0; i < string.length; i++) {
-        perms = perms.concat(permutations(string.substring(0, i) + string.substring(i + 1)).map(function(e) {
+        perms = perms.concat(permutations_6(string.substring(0, i) + string.substring(i + 1)).map(function(e) {
             return string[i] + e;
         }).filter(function(e) {
             return perms.indexOf(e) === -1;
@@ -129,6 +129,118 @@ function permutations_6(string) {
 }
 
 console.log("__________NEXT___________")
-console.log(permutations_5('a'), ['a']);
-console.log(permutations_5('ab'), ['ab', 'ba']);
-console.log(permutations_5('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
+console.log(permutations_6('a'), ['a']);
+console.log(permutations_6('ab'), ['ab', 'ba']);
+console.log(permutations_6('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
+
+function permutations_7(string) {
+    if (string.length < 2) return [string];
+    let output = [];
+    for (let i=0; i<string.length; i++) {
+        let char = string[i];
+        if (string.indexOf(char) !== i)
+            continue;
+
+        let remainingString = string.slice(0,i) + string.slice(i+1,string.length);
+
+        for (const subPermutation of permutations_7(remainingString))
+            output.push(char + subPermutation)
+    }
+    return output;
+}
+
+console.log("__________NEXT___________")
+console.log(permutations_7('a'), ['a']);
+console.log(permutations_7('ab'), ['ab', 'ba']);
+console.log(permutations_7('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
+
+function permutations_8(chs) {
+    return [...new Set(
+        Array.from( heapsPerms((chs+'').split('')),
+            str => str.join('') )
+    )];
+}
+
+
+function *heapsPerms(chs, n = chs.length) {
+    if (n <= 1) yield chs.slice();
+    else for (let i = 0; i < n; i++) {
+        yield *heapsPerms(chs, n-1);
+        swap(chs, (n % 2 !== 0) ? 0 : i, n-1);
+    }
+}
+
+
+function swap(iterable, i, j) {
+    [iterable[i], iterable[j]] = [iterable[j], iterable[i]];
+}
+
+
+console.log("__________NEXT___________")
+console.log(permutations_8('a'), ['a']);
+console.log(permutations_8('ab'), ['ab', 'ba']);
+console.log(permutations_8('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
+
+
+const permutations_9 = (str) =>
+    str.length === 1 ?
+        [str] : Array.from(new Set(
+            [...str].map((char, i) =>
+                permutations_9(str.slice(0, i) + str.slice(i + 1))
+                    .map(p => char + p)
+            ).reduce((a, b) => a.concat(b), [])
+        ));
+
+console.log("__________NEXT___________")
+console.log(permutations_9('a'), ['a']);
+console.log(permutations_9('ab'), ['ab', 'ba']);
+console.log(permutations_9('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
+
+const permutations_10 = (str, perms = []) => {
+    if (str.length === 1) return [str];
+    for (let i = 0; i < str.length; i++)
+        str.indexOf(str[i]) === i && (perms = perms.concat(
+            permutations_10(str.slice(0, i) + str.slice(i + 1))
+                .map(rest => str[i] + rest)
+        ));
+    return perms;
+};
+
+console.log("__________NEXT___________")
+console.log(permutations_10('a'), ['a']);
+console.log(permutations_10('ab'), ['ab', 'ba']);
+console.log(permutations_10('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
+
+
+function permutations_11(s)  {
+    let res = new Set();
+
+    const perm = (s, z='') => {
+        if ( s.length === 0) res.add(z);
+        for (let i=0; i< s.length; i++)
+            perm (s.slice(0,i) + s.slice(i+1,s.length), z+s[i]);
+    }
+
+    perm(s);
+    return [...res];
+}
+
+console.log("__________NEXT___________")
+console.log(permutations_11('a'), ['a']);
+console.log(permutations_11('ab'), ['ab', 'ba']);
+console.log(permutations_11('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
+
+
+const permutations_12 = str => {
+    return Array.from(new Set(str.length === 0 ? [''] : permutations_12(str.slice(1)).reduce((res, curr) => {
+        for (let i = 0; i < str.length; i++) {
+            res.push(curr.slice(0, i) + str[0] + curr.slice(i));
+        }
+        return res;
+    }, [])));
+};
+
+console.log("__________NEXT___________")
+console.log(permutations_12('a'), ['a']);
+console.log(permutations_12('ab'), ['ab', 'ba']);
+console.log(permutations_12('aabb'), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']);
