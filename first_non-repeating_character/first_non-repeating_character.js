@@ -84,3 +84,34 @@ console.log(firstNonRepeatingLetter_2(''), '/ ""');
 console.log(firstNonRepeatingLetter_2('moonmene'), '/ ""');
 console.log(firstNonRepeatingLetter_2('sTreSS'), '/ "T"');
 console.log(firstNonRepeatingLetter_2('s,TreSS'), '/ "T"');
+
+function firstNonRepeatingLetter_3(s) {
+    for(let i in s) {
+        if(s.match(new RegExp(s[i],"gi")).length === 1) {
+            return s[i];
+        }
+    }
+    return '';
+}
+
+console.log(firstNonRepeatingLetter_3('a'), '/ a');
+console.log(firstNonRepeatingLetter_3('stress'), '/ t');
+console.log(firstNonRepeatingLetter_3('moonmen'), '/ e');
+console.log(firstNonRepeatingLetter_3(''), '/ ""');
+console.log(firstNonRepeatingLetter_3('moonmene'), '/ ""');
+console.log(firstNonRepeatingLetter_3('sTreSS'), '/ "T"');
+console.log(firstNonRepeatingLetter_3('s,TreSS'), '/ "T"');
+
+function firstNonRepeatingLetter_4(s) {
+    return s[s.toLowerCase().split('')
+        .findIndex(letter => s.toLowerCase().split('')
+            .filter(l => l === letter).length === 1 )] || '';
+}
+
+console.log(firstNonRepeatingLetter_4('a'), '/ a');
+console.log(firstNonRepeatingLetter_4('stress'), '/ t');
+console.log(firstNonRepeatingLetter_4('moonmen'), '/ e');
+console.log(firstNonRepeatingLetter_4(''), '/ ""');
+console.log(firstNonRepeatingLetter_4('moonmene'), '/ ""');
+console.log(firstNonRepeatingLetter_4('sTreSS'), '/ "T"');
+console.log(firstNonRepeatingLetter_4('s,TreSS'), '/ "T"');
