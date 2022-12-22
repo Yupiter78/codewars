@@ -63,3 +63,126 @@ in the lance-rack, an old buckler, a lean hack, and a greyhound for
 coursing. An olla of rather more beef than mutton, a salad on most
 nights, scraps on Saturdays, lentils on Fridays, and a pigeon or so extra
 on Sundays, made away with three-quarters of his income.`), ['a','of','on']);
+
+
+function topThreeWords_2(text) {
+    let words = {}
+    text.toLowerCase()
+        .replace(/([A-Za-z][A-Za-z']*)/g, match => {
+        let c = words[match] || 0
+        words[match] = ++c;
+    })
+    return Object
+        .keys(words)
+        .sort(function(a,b){return words[b]-words[a]})
+        .slice(0,3)
+}
+
+console.log(topThreeWords_2("a a a  b  c c  d d d d  e e e e e"), ['e','d','a']);
+
+console.log(topThreeWords_2("a a c b b"), ['a','b','c']);
+
+console.log(topThreeWords_2("e e e e DDD ddd DdD: ddd ddd aa aA Aa, bb cc cC e e e"),['e','ddd','aa']);
+
+console.log(topThreeWords_2("  //wont won't won't "), ["won't", "wont"]);
+
+console.log(topThreeWords_2("  , e   .. "), ["e"]);
+
+console.log(topThreeWords_2("  ...  "), []);
+
+console.log(topThreeWords_2("  '  "), []);
+
+console.log(topThreeWords_2(`In a village of La Mancha, the name of which I have no desire to call to
+mind, there lived not long since one of those gentlemen that keep a lance
+in the lance-rack, an old buckler, a lean hack, and a greyhound for
+coursing. An olla of rather more beef than mutton, a salad on most
+nights, scraps on Saturdays, lentils on Fridays, and a pigeon or so extra
+on Sundays, made away with three-quarters of his income.`), ['a','of','on']);
+
+const topThreeWords_3 = text => {
+    let total = (text.toLowerCase()
+        .match(/\b[a-z']+\b/g)||[])
+        .reduce((acc,cur) => (acc[cur] = (acc[cur]||0) + 1, acc), {});
+    return Object.keys(total)
+        .sort((a,b) => total[b] - total[a])
+        .slice(0,3);
+};
+
+console.log(topThreeWords_3("a a a  b  c c  d d d d  e e e e e"), ['e','d','a']);
+
+console.log(topThreeWords_3("a a c b b"), ['a','b','c']);
+
+console.log(topThreeWords_3("e e e e DDD ddd DdD: ddd ddd aa aA Aa, bb cc cC e e e"),['e','ddd','aa']);
+
+console.log(topThreeWords_3("  //wont won't won't "), ["won't", "wont"]);
+
+console.log(topThreeWords_3("  , e   .. "), ["e"]);
+
+console.log(topThreeWords_3("  ...  "), []);
+
+console.log(topThreeWords_3("  '  "), []);
+
+console.log(topThreeWords_3(`In a village of La Mancha, the name of which I have no desire to call to
+mind, there lived not long since one of those gentlemen that keep a lance
+in the lance-rack, an old buckler, a lean hack, and a greyhound for
+coursing. An olla of rather more beef than mutton, a salad on most
+nights, scraps on Saturdays, lentils on Fridays, and a pigeon or so extra
+on Sundays, made away with three-quarters of his income.`), ['a','of','on']);
+
+const topThreeWords_4 = text => {
+    const obj = {};
+    text.toLowerCase().replace(/(\w'?)+/g, val => {
+        return obj[val] = -~obj[val], val
+    });
+    return Object.keys(obj).sort((a, b) => obj[b] - obj[a]).slice(0, 3);
+};
+
+console.log(topThreeWords_4("a a a  b  c c  d d d d  e e e e e"), ['e','d','a']);
+
+console.log(topThreeWords_4("a a c b b"), ['a','b','c']);
+
+console.log(topThreeWords_4("e e e e DDD ddd DdD: ddd ddd aa aA Aa, bb cc cC e e e"),['e','ddd','aa']);
+
+console.log(topThreeWords_4("  //wont won't won't "), ["won't", "wont"]);
+
+console.log(topThreeWords_4("  , e   .. "), ["e"]);
+
+console.log(topThreeWords_4("  ...  "), []);
+
+console.log(topThreeWords_4("  '  "), []);
+
+console.log(topThreeWords_4(`In a village of La Mancha, the name of which I have no desire to call to
+mind, there lived not long since one of those gentlemen that keep a lance
+in the lance-rack, an old buckler, a lean hack, and a greyhound for
+coursing. An olla of rather more beef than mutton, a salad on most
+nights, scraps on Saturdays, lentils on Fridays, and a pigeon or so extra
+on Sundays, made away with three-quarters of his income.`), ['a','of','on']);
+
+function topThreeWords_5(text) {
+    const string = text.toLowerCase().replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"").trim();
+    return Object.entries(string.split(' ').reduce((h,c)=>(h[c]=(h[c]||0)+1,h),{}))
+        .filter(e=> e[0] !== '' && e[0] !== '\'')
+        .sort((a,b)=>b[1] - a[1])
+        .map(e => e[0]).slice(0,3);
+}
+
+console.log(topThreeWords_5("a a a  b  c c  d d d d  e e e e e"), ['e','d','a']);
+
+console.log(topThreeWords_5("a a c b b"), ['a','b','c']);
+
+console.log(topThreeWords_5("e e e e DDD ddd DdD: ddd ddd aa aA Aa, bb cc cC e e e"),['e','ddd','aa']);
+
+console.log(topThreeWords_5("  //wont won't won't "), ["won't", "wont"]);
+
+console.log(topThreeWords_5("  , e   .. "), ["e"]);
+
+console.log(topThreeWords_5("  ...  "), []);
+
+console.log(topThreeWords_5("  '  "), []);
+
+console.log(topThreeWords_5(`In a village of La Mancha, the name of which I have no desire to call to
+mind, there lived not long since one of those gentlemen that keep a lance
+in the lance-rack, an old buckler, a lean hack, and a greyhound for
+coursing. An olla of rather more beef than mutton, a salad on most
+nights, scraps on Saturdays, lentils on Fridays, and a pigeon or so extra
+on Sundays, made away with three-quarters of his income.`), ['a','of','on']);
