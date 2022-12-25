@@ -47,3 +47,28 @@ console.log(sum(4), 5);
 console.log(sum(5), 7);
 
 console.log(sum(10), 42);
+
+function sumCache(num) {
+    const cache = new Map();
+    const getKey = (n1, n2) => `${n1}, ${n2}`;
+    return (function worker(num, k = num) {
+        const key = getKey(num, k);
+        if (cache.has(key)) return cache.get(key);
+        if (num === 0) return 1;
+        let result = 0;
+        for (let i = 1; i <= Math.min(num, k); i++) {
+            result += worker(num - i, i);
+        }
+        cache.set(key, result);
+        return result;
+    })(num);
+}
+
+console.log(sumCache(1), 1);
+console.log(sumCache(2), 2);
+console.log(sumCache(3), 3);
+console.log(sumCache(4), 5);
+
+console.log(sumCache(5), 7);
+
+console.log(sumCache(10), 42);
