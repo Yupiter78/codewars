@@ -232,3 +232,55 @@ console.log(sum_7(3), 3);
 console.log(sum_7(4), 5);
 console.log(sum_7(5), 7);
 console.log(sum_7(10), 42);
+
+
+function sum_8(num){
+    let parts = []
+    parts[0] = 1
+    for (let i = 1; i <= num ; i++) {
+        parts[i] = 0
+    }
+    let counter = 0
+    for (let i = 1; i <= num; i++) {
+        counter = 0
+        for (let j = i; j <= num; j++) {
+            parts[j] += parts[counter]
+            counter++
+        }
+    }
+    return parts[num]
+}
+
+console.log("___________________")
+console.log(sum_8(1), 1);
+console.log(sum_8(2), 2);
+console.log(sum_8(3), 3);
+console.log(sum_8(4), 5);
+console.log(sum_8(5), 7);
+console.log(sum_8(10), 42);
+
+
+function sum_9 (num) {
+    const mem = [1], p = function (n) {
+        let k, i, acc = 0;
+
+        if (mem[n]) return mem[n];
+        else if (n < 0) return 0;
+
+        // P(n) = Σ (-1)k+1[P(n - k(3k-1)/2) + P(n - k(3k+1)/2)]
+        for (k = 1, i = 1; k <= n - k + 1; k++, i *= -1) {
+            acc += i * (p(n - k * (3 * k - 1) / 2) + p(n - k * (3 * k + 1) / 2));
+        }
+        mem[n] = acc; return mem[n];
+    };
+
+    return p(num);
+}
+
+console.log("___________________")
+console.log(sum_9(1), 1);
+console.log(sum_9(2), 2);
+console.log(sum_9(3), 3);
+console.log(sum_9(4), 5);
+console.log(sum_9(5), 7);
+console.log(sum_9(10), 42);
