@@ -155,3 +155,56 @@ console.log(sum_4(3), 3);
 console.log(sum_4(4), 5);
 console.log(sum_4(5), 7);
 console.log(sum_4(10), 42);
+
+
+function sum_5(num) {
+    const memo = {};
+
+    function sumRecursive(target, max) {
+        let partitions = 0;
+        for (let i = Math.min(target, max); i > 0; i--) {
+            if (i === target || i === 1)
+                partitions++;
+            else
+                partitions += memo[`${target-i}-${i}`] || sumRecursive(target-i, i);
+        }
+
+        memo[`${target}-${max}`] = partitions;
+        return partitions;
+    }
+
+    return sumRecursive(num, num);
+}
+
+console.log("___________________")
+console.log(sum_5(1), 1);
+console.log(sum_5(2), 2);
+console.log(sum_5(3), 3);
+console.log(sum_5(4), 5);
+console.log(sum_5(5), 7);
+console.log(sum_5(10), 42);
+
+
+function sum_6(n) {
+    this.mem = this.mem || [1];
+
+    if (n < 0)
+        return 0;
+
+    if (this.mem[n])
+        return this.mem[n];
+
+    this.mem[n] = 0
+    for (let i = 1; i <= n; i++)
+        this.mem[n] += (i % 2 ? 1 : -1) * (sum_6(n - i * (3 * i - 1) / 2) + sum_6(n - i * (3 * i + 1) / 2));
+
+    return this.mem[n];
+}
+
+console.log("___________________")
+console.log(sum_6(1), 1);
+console.log(sum_6(2), 2);
+console.log(sum_6(3), 3);
+console.log(sum_6(4), 5);
+console.log(sum_6(5), 7);
+console.log(sum_6(10), 42);
