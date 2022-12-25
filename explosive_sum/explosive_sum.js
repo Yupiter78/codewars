@@ -64,11 +64,50 @@ function sumCache(num) {
     })(num);
 }
 
+console.log("___________________")
 console.log(sumCache(1), 1);
 console.log(sumCache(2), 2);
 console.log(sumCache(3), 3);
 console.log(sumCache(4), 5);
-
 console.log(sumCache(5), 7);
-
 console.log(sumCache(10), 42);
+
+
+const sum_2 = (num) => {
+    const dp = [1, ...new Array(num).fill(0)];
+
+    for (let i = 1; i <= num; i++) {
+        for (let j = i; j <= num; j++) {
+            dp[j] += dp[j - i];
+        }
+    }
+    return dp[num];
+};
+
+/*const sum_2 = (num) => {
+    const dp = [1, ...new Array(num).fill(0)];
+    console.log("dp:", dp);
+
+    for (let i = 1; i <= num; i++) {
+        console.log(`__________i = ${i}__________`);
+        console.log(`(dp[j]) += dp[j - i]`)
+        for (let j = i; j <= num; j++) {
+            console.log(`dp_for ${i}`, dp);
+            console.log(`j = ${j} / ${dp[j]} += ${dp[j - i]} === ${dp[j] + dp[j - i]}`)
+            dp[j] += dp[j - i];
+        }
+        console.log(`dp_NEXT ${i}:`, dp);
+    }
+    console.log("dp_END:", dp);
+    return dp[num];
+};*/
+
+console.log("___________________")
+console.log(sum_2(1), 1);
+console.log(sum_2(2), 2);
+console.log(sum_2(3), 3);
+console.log(sum_2(4), 5);
+console.log(sum_2(5), 7);
+console.log(sum_2(10), 42);
+
+
