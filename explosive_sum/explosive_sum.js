@@ -310,3 +310,23 @@ console.log(sum_10(3), 3);
 console.log(sum_10(4), 5);
 console.log(sum_10(5), 7);
 console.log(sum_10(10), 42);
+
+
+function sum_11(n) {
+    const ways = new Array(n + 1).fill(0);
+    ways[0] = 1;
+    for(let i = 1; i <= n; i++){
+        for(let j = i; j <= n; j++){
+            ways[j] += ways[j - i];
+        }
+    }
+    return ways[n];
+}
+
+console.log("___________________")
+console.log(sum_11(1), 1);
+console.log(sum_11(2), 2);
+console.log(sum_11(3), 3);
+console.log(sum_11(4), 5);
+console.log(sum_11(5), 7);
+console.log(sum_11(10), 42);
