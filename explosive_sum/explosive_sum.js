@@ -208,3 +208,27 @@ console.log(sum_6(3), 3);
 console.log(sum_6(4), 5);
 console.log(sum_6(5), 7);
 console.log(sum_6(10), 42);
+
+// https://habr.com/ru/post/675594/
+
+const sums = {0: 1};
+function g(n) { return n * (3 * n - 1) / 2; }
+function sum_7(n) {
+    if (n < 0) return 0;
+    if (sums.hasOwnProperty(n)) return sums[n];
+    let  count = 0;
+    for (let i = 1, term; term !== 0; i++) {
+        term   = sum_7(n - g(-i));
+        term  += sum_7(n - g( i));
+        count += ((i % 2 === 0) ? -1 : 1) * term;
+    }
+    return sums[n] = count;
+}
+
+console.log("___________________")
+console.log(sum_7(1), 1);
+console.log(sum_7(2), 2);
+console.log(sum_7(3), 3);
+console.log(sum_7(4), 5);
+console.log(sum_7(5), 7);
+console.log(sum_7(10), 42);
