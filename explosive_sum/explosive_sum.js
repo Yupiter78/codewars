@@ -284,3 +284,29 @@ console.log(sum_9(3), 3);
 console.log(sum_9(4), 5);
 console.log(sum_9(5), 7);
 console.log(sum_9(10), 42);
+
+
+function sum_10(n) {
+    const table = Array(n+1).fill(0).map(()=>Array(n+1).fill(0));
+    console.log("table:", table);
+    for (let z = 0; z <= n; z++) table[z][0] = 1;
+    for (let i = 1; i<= n; i++) {
+        for (let j = 1; j<= n; j++) {
+            if(i>j) table[i][j] = table[i-1][j]
+            else {
+                let sumsWithI = table[i-1][j];
+                let sumsWithoutI = table[i][j-i];
+                table[i][j] = sumsWithI + sumsWithoutI;
+            }
+        }
+    }
+    return table[n][n];
+}
+
+console.log("___________________")
+console.log(sum_10(1), 1);
+console.log(sum_10(2), 2);
+console.log(sum_10(3), 3);
+console.log(sum_10(4), 5);
+console.log(sum_10(5), 7);
+console.log(sum_10(10), 42);
