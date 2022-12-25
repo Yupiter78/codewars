@@ -111,3 +111,47 @@ console.log(sum_2(5), 7);
 console.log(sum_2(10), 42);
 
 
+function sum_3(num){
+    if(num<0){return 0;}
+    const arr=[];
+    for(let i=0;i<=num+1;i++){
+        arr[i]=0;
+    }
+    arr[0]=1;
+    for(let i=1;i<=num;i++){
+        for(let j=i;j<=num;j++){
+            arr[j]+=arr[j-i];
+        }
+    }
+    return arr[num];
+}
+
+console.log("___________________")
+console.log(sum_3(1), 1);
+console.log(sum_3(2), 2);
+console.log(sum_3(3), 3);
+console.log(sum_3(4), 5);
+console.log(sum_3(5), 7);
+console.log(sum_3(10), 42);
+
+const memo = [];
+
+function sum_4(n, m = n) {
+    if (n === 0) return 1;
+    if (n < 0 || m === 0) return 0;
+    if (memo[n] && memo[n][m]) return memo[n][m];
+    let total = sum_4(n, m - 1) + sum_4(n - m, m);
+    if (!memo[n]) {
+        memo[n] = [];
+    }
+    memo[n][m] = total;
+    return total;
+}
+
+console.log("___________________")
+console.log(sum_4(1), 1);
+console.log(sum_4(2), 2);
+console.log(sum_4(3), 3);
+console.log(sum_4(4), 5);
+console.log(sum_4(5), 7);
+console.log(sum_4(10), 42);
