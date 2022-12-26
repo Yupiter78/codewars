@@ -26,11 +26,7 @@ function solution(list){
         }
         if (temp.at(- 1) === list[i] - 1) {
             temp.push(list[i]);
-            if (temp.length > 2) {
-                result.push(`${temp[0]}-${temp[temp.length - 1]}`);
-            } else {
-                result.push(temp.slice(0));
-            }
+            result.push(temp.length > 2 ? `${temp[0]}-${temp.at(- 1)}` : temp.slice(0));
             temp.length = 0;
             continue;
         }
@@ -41,3 +37,27 @@ function solution(list){
 
 console.log(solution([-6, -3, -2, -1, 0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 17, 18, 19, 20]),
     "/ -6,-3-1,3-5,7-11,14,15,17-20");
+
+console.log(solution([-10, -9, -8, -6, -3, -2, -1, 0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 17, 18, 19, 20]),
+    "/ -10--8,-6,-3-1,3-5,7-11,14,15,17-20");
+
+
+function solution_2(list){
+    return list
+        .reduce((acc, n, i, arr) => {
+            if(n !== arr[i - 1] + 1) {
+                acc.push([n]);
+            } else {
+                acc[acc.length - 1].push(n);
+            }
+            return acc;
+        }, [])
+        .map(arr => arr.length > 2 ? `${arr[0]}-${arr[arr.length-1]}` : arr)
+        .join(',');
+}
+
+console.log(solution_2([-6, -3, -2, -1, 0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 17, 18, 19, 20]),
+    "/ -6,-3-1,3-5,7-11,14,15,17-20");
+
+console.log(solution_2([-10, -9, -8, -6, -3, -2, -1, 0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 17, 18, 19, 20]),
+    "/ -10--8,-6,-3-1,3-5,7-11,14,15,17-20");
