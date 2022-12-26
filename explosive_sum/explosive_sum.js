@@ -288,7 +288,7 @@ console.log(sum_9(10), 42);
 
 function sum_10(n) {
     const table = Array(n+1).fill(0).map(()=>Array(n+1).fill(0));
-    console.log("table:", table);
+
     for (let z = 0; z <= n; z++) table[z][0] = 1;
     for (let i = 1; i<= n; i++) {
         for (let j = 1; j<= n; j++) {
@@ -330,3 +330,25 @@ console.log(sum_11(3), 3);
 console.log(sum_11(4), 5);
 console.log(sum_11(5), 7);
 console.log(sum_11(10), 42);
+
+
+function sum_12(num) {
+    if (num <= 0) return 0;
+    const values = [];
+    for (let i = 0; i < num; i++) values.push(0);
+    for (let i = 0; i < num; i++) {
+        values[i]++;
+        for (let j = i + 1; j < num; j++) {
+            values[j] += values[j - i - 1];
+        }
+    }
+    return values[num - 1];
+}
+
+console.log("___________________")
+console.log(sum_12(1), 1);
+console.log(sum_12(2), 2);
+console.log(sum_12(3), 3);
+console.log(sum_12(4), 5);
+console.log(sum_12(5), 7);
+console.log(sum_12(10), 42);
