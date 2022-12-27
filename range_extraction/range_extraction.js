@@ -103,3 +103,24 @@ console.log(solution_5([-6, -3, -2, -1, 0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 
 
 console.log(solution_5([-10, -9, -8, -6, -3, -2, -1, 0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 17, 18, 19, 20]),
     "/ -10--8,-6,-3-1,3-5,7-11,14,15,17-20");
+
+
+function solution_6(list){
+    let hyphen = false;
+    return list.reduce(
+        function(range, num, i, list) {
+            if(list[i-1] !== (num-1) || list[i+1] !== (num+1)) {
+                range += hyphen ? "-" + num : "," + num;
+                hyphen = false;
+            } else{
+                hyphen = true;
+            }
+            return range;
+        });
+}
+
+console.log(solution_6([-6, -3, -2, -1, 0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 17, 18, 19, 20]),
+    "/ -6,-3-1,3-5,7-11,14,15,17-20");
+
+console.log(solution_6([-10, -9, -8, -6, -3, -2, -1, 0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 17, 18, 19, 20]),
+    "/ -10--8,-6,-3-1,3-5,7-11,14,15,17-20");
