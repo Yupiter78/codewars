@@ -101,3 +101,18 @@ function solution_6(input, markers){
 
 console.log(solution_6("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]), "/ apples, plums\npears\noranges")
 console.log(solution_6("Q @b\nu\ne -e f g", ["@", "-"]), "/ Q\nu\ne");
+
+const solution_7 = (input, markers) =>
+    input.split('\n')
+        .map(str => markers
+            .reduce((str, marker) => str.split(marker)[0].trim(), str)).join('\n');
+
+console.log(solution_7("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]), "/ apples, plums\npears\noranges")
+console.log(solution_7("Q @b\nu\ne -e f g", ["@", "-"]), "/ Q\nu\ne");
+
+solution_8 = (s,[x,y]) => s.split`\n`
+    .map(e => e.split(x)[0]
+        .split(y)[0].trim()).join`\n`;
+
+console.log(solution_8("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]), "/ apples, plums\npears\noranges")
+console.log(solution_8("Q @b\nu\ne -e f g", ["@", "-"]), "/ Q\nu\ne");
