@@ -44,4 +44,28 @@ function solution(input, markers) {
 
 
 console.log(solution("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]), "/ apples, plums\npears\noranges")
-console.log(solution("Q @b\nu\ne -e f g", ["@", "-"]), "/ Q\nu\ne")
+console.log(solution("Q @b\nu\ne -e f g", ["@", "-"]), "/ Q\nu\ne");
+
+
+function solution_2(input, markers) {
+    return input.split('\n').map(
+        item => markers.reduce(
+            (prev, cur) => {
+                console.log("prev:", prev);
+                console.log("cur:", cur);
+                return prev.split(cur)[0].trim()
+            }, item
+        )
+    ).join('\n')
+}
+
+console.log(solution_2("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]), "/ apples, plums\npears\noranges")
+console.log(solution_2("Q @b\nu\ne -e f g", ["@", "-"]), "/ Q\nu\ne");
+
+
+function solution_3(input, markers){
+    return input.replace(new RegExp("\\s?[" + markers.join("") + "].*(\\n)?", "gi"), "$1");
+}
+
+console.log(solution_3("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]), "/ apples, plums\npears\noranges")
+console.log(solution_3("Q @b\nu\ne -e f g", ["@", "-"]), "/ Q\nu\ne");
