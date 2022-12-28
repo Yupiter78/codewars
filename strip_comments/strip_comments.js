@@ -88,3 +88,16 @@ function solution_5(input, markers) {
 
 console.log(solution_5("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]), "/ apples, plums\npears\noranges")
 console.log(solution_5("Q @b\nu\ne -e f g", ["@", "-"]), "/ Q\nu\ne");
+
+function solution_6(input, markers){
+    //`RegExp(..)` has some reasonable utility: to dynamically define the pattern for a regular expression.
+    //https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26%20grammar/ch3.md#object-function-and-regexp
+    let pattern = new RegExp("[" +markers.join("")+ "]");
+
+    return input.split("\n").map(function(a){
+        return a.split(pattern)[0].trim();
+    }).join("\n");
+}
+
+console.log(solution_6("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]), "/ apples, plums\npears\noranges")
+console.log(solution_6("Q @b\nu\ne -e f g", ["@", "-"]), "/ Q\nu\ne");
