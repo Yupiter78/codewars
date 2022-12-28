@@ -69,3 +69,11 @@ function solution_3(input, markers){
 
 console.log(solution_3("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]), "/ apples, plums\npears\noranges")
 console.log(solution_3("Q @b\nu\ne -e f g", ["@", "-"]), "/ Q\nu\ne");
+
+
+function solution_4(input, markers){
+    return input.replace(new RegExp(`\\s*[${markers.join('|')}].+`,'g'),'');
+}
+
+console.log(solution_4("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]), "/ apples, plums\npears\noranges")
+console.log(solution_4("Q @b\nu\ne -e f g", ["@", "-"]), "/ Q\nu\ne");
