@@ -77,3 +77,14 @@ function solution_4(input, markers){
 
 console.log(solution_4("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]), "/ apples, plums\npears\noranges")
 console.log(solution_4("Q @b\nu\ne -e f g", ["@", "-"]), "/ Q\nu\ne");
+
+function solution_5(input, markers) {
+    let lines = input.split("\n");
+    for (let i = 0; i < lines.length; ++i)
+        for (let j = 0; j < markers.length; ++j)
+            lines[i] = lines[i].split(markers[j])[0].trim();
+    return lines.join("\n");
+}
+
+console.log(solution_5("apples, plums % and bananas\npears\noranges !applesauce", ["%", "!"]), "/ apples, plums\npears\noranges")
+console.log(solution_5("Q @b\nu\ne -e f g", ["@", "-"]), "/ Q\nu\ne");
