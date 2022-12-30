@@ -75,7 +75,7 @@ console.log(solution_2([6,9,21]), "Answer:",9);
 
 function solution_3(numbers) {
     const gcd = (a, b) => a ? gcd(b % a, a) : b;
-    return numbers.reduce(gcd)*numbers.length
+    return numbers.reduce(gcd) * numbers.length;
 }
 
 console.log(solution_3([6,9,21]), "Answer:",9);
