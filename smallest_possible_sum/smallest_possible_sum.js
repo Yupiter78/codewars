@@ -41,7 +41,9 @@ function solution(numbers) {
     return arr[0] * len;
 }
 
-    /*const step = (start, next) => {
+console.log(solution([6,9,21]), "Answer:",9);
+
+    const step = (start, next) => {
         while ( next !== start ) {
             if ( next > start ) {
                 if ( next % start === 0 ) return start;
@@ -55,7 +57,7 @@ function solution(numbers) {
         return next;
     }
 
-function solution(arr){
+function solution_2(arr){
     if ( arr.length === 1) return arr[0];
     let start = arr[0], next = null;
 
@@ -66,8 +68,14 @@ function solution(arr){
         start = next;
     }
     return next * arr.length;
-}*/
+}
+
+console.log(solution_2([6,9,21]), "Answer:",9);
 
 
+function solution_3(numbers) {
+    const gcd = (a, b) => a ? gcd(b % a, a) : b;
+    return numbers.reduce(gcd)*numbers.length
+}
 
-console.log(solution([6,9,21]), "Answer:",9);
+console.log(solution_3([6,9,21]), "Answer:",9);
