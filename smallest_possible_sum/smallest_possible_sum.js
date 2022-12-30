@@ -105,3 +105,24 @@ function gcd_2(a, b) {
 }
 
 console.log(solution_5([6,9,21]), "Answer:",9);
+
+function solution_6(numbers) {
+    let copy = numbers.slice();
+
+    while (!copy.every(i => i === copy[0])) {
+        let min = Math.min(...copy);
+        copy = [...new Set(copy.map(i => (i > min && (i - min*parseInt((i / min).toString())) !== 0) ?
+            i - min * parseInt((i / min).toString()) : min))];
+    }
+    return copy[0] * numbers.length;
+}
+
+console.log(solution_6([6,9,21]), "Answer:",9);
+
+function solution_7(numbers) {
+    let arr = numbers.length
+    return arr * numbers.reduce((prev, cur) => cur % prev ?
+        cur % prev : prev, Math.min(...numbers));
+}
+
+console.log(solution_7([6,9,21]), "Answer:",9);
