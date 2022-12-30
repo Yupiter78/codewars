@@ -88,3 +88,20 @@ function solution_4(numbers) {
 }
 
 console.log(solution_4([6,9,21]), "Answer:",9);
+
+
+function solution_5(numbers) {
+    return numbers.reduce((a, b)=>gcd_2(a, b)) * numbers.length
+}
+
+function gcd_2(a, b) {
+    let remains;
+    while ((a % b) > 0)  {
+        remains = a % b;
+        a = b;
+        b = remains;
+    }
+    return b;
+}
+
+console.log(solution_5([6,9,21]), "Answer:",9);
