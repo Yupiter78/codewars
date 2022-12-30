@@ -79,3 +79,12 @@ function solution_3(numbers) {
 }
 
 console.log(solution_3([6,9,21]), "Answer:",9);
+
+
+function solution_4(numbers) {
+    return numbers.reduce(function gcd(a, b) {
+        return a ? gcd(b % a, a) : b
+    }) * numbers.length;
+}
+
+console.log(solution_4([6,9,21]), "Answer:",9);
