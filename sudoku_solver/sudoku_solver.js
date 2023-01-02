@@ -166,5 +166,26 @@ function sudoku_2(puzzle) {
     return rec(0,0)
 }
 
-console.log(sudoku(puzzle_2), "answer:", solution);
+console.log(sudoku_2(puzzle), "answer:", solution);
 
+function sudoku_3(puzzle) {
+    while (puzzle.some( l => l.some( p => p === 0 ) ))  // while some unfilled pos.
+        for (let y = 0; y < 9; y++)                         // scan whole board
+            for (let x = 0; x < 9; x++)
+                if (puzzle[y][x] === 0) {                     // and with unfilled do:
+                    let p = [true, true, true, true, true,         // init possible digits
+                        true, true, true, true, true];
+                    for (let i = 0; i < 9; i++) {               // exclude all digits
+                        p[ puzzle[y][i] ] = false;              // found in same row
+                        p[ puzzle[i][x] ] = false;              // and column
+                    }
+                    for (let i = 3 * ~~(x / 3); i < 3 * (~~(x / 3) + 1); i++)    // exclude all
+                        for (let j = 3 * ~~(y / 3); j < 3 * (~~(y / 3) + 1); j++)  // digits in
+                            p[ puzzle[j][i] ] = false;                 // local 3x3 sqare
+                    if (p.reduce( (p,c) => p + (c ? 1 : 0) ) === 1) // if just one possible left
+                        puzzle[y][x] = p.indexOf(true);         // put it in current place
+                }
+    return puzzle;
+}
+
+console.log(sudoku_3(puzzle), "answer:", solution);
