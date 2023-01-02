@@ -34,83 +34,57 @@ Should return
 */
 
 function sudoku(puzzle) {
-    const options = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    const len = puzzle.length;
-    const choices = [];
-    const arrCell = [];
-    const choicesCell = [];
-    const choicesSq = [];
-    console.log("choicesSq:", choicesSq);
+    const options = [1, 2, 3, 4, 5, 6, 7, 8, 9],
+     len = puzzle.length,
+     lines = [],
+     arrColumns = [],
+     columns = [],
+     choicesSq = [],
+     squares = [],
+     cache = {},
+     getSquare = (x, y) => ~~(x / 3) * 3 + ~~(y / 3);
+
+
     for (let i = 0; i < len; i++) {
-        const choiceRow = [];
-        const cell = []
+        const choiceRow = [],
+        column = []
         for (let j = 0; j < len; j++) {
             if (!puzzle[i].includes(options[j])) choiceRow.push(options[j]);
-            cell.push(puzzle[j][i]);
+            column.push(puzzle[j][i]);
         }
-        choices.push(choiceRow);
-        arrCell.push((cell));
+        lines.push(choiceRow);
+        arrColumns.push((column));
     }
-    // console.log("choices:", choices);
-
-    for (let i = 0; i < len; i++) {
-        const choiceCell = [];
-        for (let j = 0; j < len; j++) {
-            if (!arrCell[i].includes(options[j])) choiceCell.push(options[j]);
-        }
-        choicesCell.push(choiceCell);
-
-    }
-    // console.log("choicesCell:", choicesCell);
 
     for (let i = 0; i < len; i += 3) {
-
-        let k = i;
         for (let j = 0; j < len; j += 3) {
-            choicesSq.push([]);
-
-            choicesSq[k].push(...puzzle[i].slice(j, j + 3));
-            choicesSq[k].push(...puzzle[i + 1].slice(j, j + 3));
-            choicesSq[k].push(...puzzle[i + 2].slice(j, j + 3));
-            k++;
-            // if (!arrCell[i].includes(options[j])) choiceCell.push(options[j]);
+            choicesSq.push([...puzzle[i].slice(j, j + 3),
+                ...puzzle[i + 1].slice(j, j + 3), ...puzzle[i + 2].slice(j, j + 3)]);
         }
 
     }
-    const arrSquares = [];
+
     for (let i = 0; i < len; i++) {
-        const square = [];
+        const choiceColumn = [],
+            square = [];
         for (let j = 0; j < len; j++) {
+            if (!arrColumns[i].includes(options[j])) choiceColumn.push(options[j]);
             if (!choicesSq[i].includes(options[j])) square.push(options[j]);
         }
-        arrSquares.push(square);
-
+        columns.push(choiceColumn);
+        squares.push(square);
     }
-    // console.log("arrSquares:", arrSquares);
-    const cache = {};
-    for (let i = 0; i < len; i++) {
 
+    for (let i = 0; i < len; i++) {
         for (let j = 0; j < len; j++) {
             if (puzzle[i][j] === 0) {
-                const getSquare = (gor, ver) => {
-                    let x = ~~(gor / 3);
-                    let y = ~~(ver / 3);
-                    // console.log(`(${gor}, ${ver})  getSquare ${x}, ${y}:`, x * 3 + y);
-                    return x * 3 + y;
-                }
-                // console.log(`[...choices[${i}], ...choicesCell[${j}], ...arrSquares[getSquare(${i}, ${j})]]:`,
-                //     [...choices[i], ...choicesCell[j], ...arrSquares[getSquare(i, j)]]);
-                cache[`${i},${j}`] = [...choices[i], ...choicesCell[j], ...arrSquares[getSquare(i, j)]].sort()
+                cache[`${i},${j}`] = [...lines[i], ...columns[j], ...squares[getSquare(i, j)]].sort()
                     .filter((item, i, arr) => {
-                        // console.log(`arr.indexOf(${item}) === arr.lastIndexOf(${arr[i - 2]})`);
                         if (item === arr[i + 2]) return item;
-                    })
-
+                    });
             }
         }
     }
-
-    console.log("CACHE:", cache);
 
     for (let key of Object.keys(cache)) {
         for (key in cache) {
