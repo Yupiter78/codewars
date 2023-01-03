@@ -289,3 +289,29 @@ const sudoku_7 = puzzle =>
 
 console.log(sudoku_7(puzzle), "answer:", solution);
 
+function sudoku_8(puzzle) {
+    // helpers
+    const row    = (i) => puzzle[i].slice(),
+    col    = (j) => puzzle.reduce((res, row) => res.concat([row[j]]), []),
+    square = (si, sj) => {
+        const res = [];
+        for(const i of [0, 1, 2]) res.push(...puzzle[si + i].slice(sj, sj + 3));
+        return res;
+    }
+    const range = [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    resolve = (i, j) => {
+        if (puzzle[i][j] === 0){
+            const used = [].concat(row(i), col(j), square(i - i % 3, j - j % 3)),
+            canUse = range.filter(k => used.indexOf(k) === -1);
+            if (canUse.length === 1) puzzle[i][j] = canUse[0];
+        }
+        return puzzle[i][j];
+    }
+    // solution
+    let rest = [];
+    for (const i in range) for (const j in range) rest.push([i, j]);
+    while(rest.length > 0) rest = rest.filter(slot => resolve(...slot) === 0);
+    return puzzle;
+}
+
+console.log(sudoku_8(puzzle), "answer:", solution);
