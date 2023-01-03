@@ -43,6 +43,7 @@ function sudoku(puzzle) {
      squares = [],
      cache = {},
      getSquare = (x, y) => ~~(x / 3) * 3 + ~~(y / 3);
+     getSquare_2 = (x, y) => x * 3 + ~~(y / 3);
 
 
     for (let i = 0; i < len; i++) {
@@ -78,6 +79,7 @@ function sudoku(puzzle) {
     for (let i = 0; i < len; i++) {
         for (let j = 0; j < len; j++) {
             if (puzzle[i][j] === 0) {
+                console.log(`getSquare(${i}, ${j}):`, getSquare(i, j), `getSquare_2(${i}, ${j}):`, getSquare_2(i, j));
                 cache[`${i},${j}`] = [...lines[i], ...columns[j], ...squares[getSquare(i, j)]].sort()
                     .filter((item, i, arr) => {
                         if (item === arr[i + 2]) return item;
@@ -139,31 +141,31 @@ let puzzle_2 = [
 function sudoku_2(puzzle) {
     const valid = (x,y) => {
         let v = [];
-        for(let i=0; i<3; i++) {
-            for(let j=0; j<3; j++) {
-                v.push(puzzle[x][i*3+j])
-                v.push(puzzle[i*3+j][y])
-                v.push(puzzle[3*Math.floor(x/3)+i][3*Math.floor(y/3)+j])
+        for(let i = 0; i < 3; i++) {
+            for(let j = 0; j < 3; j++) {
+                v.push(puzzle[x][i * 3 + j]);
+                v.push(puzzle[i * 3 + j][y]);
+                v.push(puzzle[3 * Math.floor(x / 3) + i][3 * Math.floor(y / 3)+ j]);
             }
         }
-        return [1,2,3,4,5,6,7,8,9].filter(e => v.indexOf(e) === -1)
+        return [1,2,3,4,5,6,7,8,9].filter(e => v.indexOf(e) === -1);
     }
     const rec = (x,y) => {
         if(y === 9) {
-            return puzzle
+            return puzzle;
         } else if (!puzzle[x][y]) {
             const correct = valid(x,y).some(i => {
                 puzzle[x][y] = i;
-                return rec((x + 1) % 9,y+(x === 9 ? 1 : 0))
+                return rec((x + 1) % 9,y+(x === 9 ? 1 : 0));
             })
             if (correct)
                 return puzzle;
             puzzle[x][y] = 0;
         } else {
-            return rec((x + 1) % 9,y+(x=== 8 ? 1 : 0))
+            return rec((x + 1) % 9,y + (x === 8 ? 1 : 0));
         }
     }
-    return rec(0,0)
+    return rec(0,0);
 }
 
 console.log(sudoku_2(puzzle), "answer:", solution);
@@ -189,3 +191,48 @@ function sudoku_3(puzzle) {
 }
 
 console.log(sudoku_3(puzzle), "answer:", solution);
+
+function sudoku_4(puzzle) {
+    let unsolved = [];
+    const blocks = new Array(9).fill(0).map(_ => new Set),
+    rows = new Array(9).fill(0).map(_ => new Set),
+    cols = new Array(9).fill(0).map(_ => new Set);
+
+    for (let y = 0; y < 9; y++) {
+        for(let x = 0; x < 9; x++) {
+            let v = puzzle[y][x];
+            if (v === 0)
+                unsolved.push({y, x});
+            else {
+                blocks[3 * Math.floor(y/3) + Math.floor(x/3)].add(v);
+                rows[y].add(v);
+                cols[x].add(v);
+            }
+        }
+    }
+
+    while(unsolved.length > 0) {
+        unsolved = unsolved.filter(cell => {
+            let set = new Set([1,2,3,4,5,6,7,8,9]);
+            let known = new Set([
+                ...blocks[3 * Math.floor(cell.y/3) + Math.floor(cell.x/3)],
+                ...rows[cell.y],
+                ...cols[cell.x]]);
+            known.forEach(v => set.delete(v));
+
+            if (set.size === 1) {
+                let v = [...set][0];
+                rows[cell.y].add(v);
+                cols[cell.x].add(v);
+                blocks[3 * Math.floor(cell.y/3) + Math.floor(cell.x/3)].add(v);
+                puzzle[cell.y][cell.x] = v;
+
+                return false;
+            }
+            return true;
+        });
+    }
+    return puzzle;
+}
+
+console.log(sudoku_4(puzzle), "answer:", solution);
