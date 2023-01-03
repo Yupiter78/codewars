@@ -43,7 +43,6 @@ function sudoku(puzzle) {
      squares = [],
      cache = {},
      getSquare = (x, y) => ~~(x / 3) * 3 + ~~(y / 3);
-     getSquare_2 = (x, y) => x * 3 + ~~(y / 3);
 
 
     for (let i = 0; i < len; i++) {
@@ -79,7 +78,6 @@ function sudoku(puzzle) {
     for (let i = 0; i < len; i++) {
         for (let j = 0; j < len; j++) {
             if (puzzle[i][j] === 0) {
-                console.log(`getSquare(${i}, ${j}):`, getSquare(i, j), `getSquare_2(${i}, ${j}):`, getSquare_2(i, j));
                 cache[`${i},${j}`] = [...lines[i], ...columns[j], ...squares[getSquare(i, j)]].sort()
                     .filter((item, i, arr) => {
                         if (item === arr[i + 2]) return item;
@@ -255,3 +253,27 @@ function sudoku_5(a, x= 0, y= 0) {
 }
 
 console.log(sudoku_5(puzzle), "answer:", solution);
+
+function sudoku_6(pz) {
+    let pr = [...Array(9)].map(x => [...Array(9)]);
+    for (let i = 0; i < 9; i++) for (let j = 0; j < 9; j++) pr[i][j] = pz[j][i];
+    let n0 = pz.reduce((a, b) => a+b.filter(x => x === 0).length, 0);
+
+    let checkFor = (x, y) => {
+        let v = pz[x].concat(pr[y]);
+        [0, 1, 2].forEach(z => v = v.concat(pz[x - x % 3 + z].slice(y - y % 3, y - y % 3 + 3)));
+        v = v.filter(n => typeof n === 'number' && n !== 0)
+            .reduce((a, b) => a.indexOf(b) === -1 ? a.concat(b) : a, []);
+        if (v.length === 8) {
+            let tmp = 45 - v.reduce((a, b)=> a + b);
+            pz[x][y] = tmp , pr[y][x] = tmp , n0--;
+        }
+    }
+
+    for (let k = 0; k < 1000 && n0 > 0; k++)  for (let i = 0; i < 9; i++) for (let j = 0; j < 9; j++) {
+        if (isNaN(pz[i][j]) || !pz[i][j]) checkFor(i, j);
+    }
+    return pz;
+}
+
+console.log(sudoku_6(puzzle), "answer:", solution);
