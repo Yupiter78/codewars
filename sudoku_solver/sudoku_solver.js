@@ -360,9 +360,10 @@ const sudoku_10 = (p, i= 0, [x, y] = [~~(i / 9), i % 9]) => {
             .some(r => [0, 1, 2].some(k => r[~~(y / 3) * 3 + k] === v)));
     if(i > 80) return 1;
     for (let v = 1; p[x][y] === 0 && v <= 9; (p[x][y] = 0), v++) {
+        console.log("TEST");
         if ($(v, p, x, y) && (p[x][y] = v) && sudoku_10(p, i + 1)) return p;
     }
-    return p[x][y]?sudoku_10(p,i+1):0;
+    return p[x][y] ? sudoku_10(p,i + 1) : 0; // устранить ошибку рекурсионного вызова
 }
 
 console.log(sudoku_10(puzzle), "answer:", solution);
@@ -391,3 +392,85 @@ const sudoku_11 = rows => {
 };
 
 console.log(sudoku_11(puzzle), "answer:", solution);
+
+
+
+const sudoku_12 = puzzle => new Sudoku(puzzle).solve();
+
+class Sudoku {
+    cell(row, col) { return this.cells.find(c => c.row == row && c.col == col); }
+    row(i) { return this.cells.filter(c => c.row == i); }
+    col(i) { return this.cells.filter(c => c.col == i); }
+    box(i) { return this.cells.filter(c => c.box == i); }
+    constructor(grid) {
+        this.grid = grid;
+        this.m = this.grid.length;
+        this.n = Math.floor(this.m ** 0.5);
+        this.cells = [...Array(this.m ** 2).keys()]
+            .map(id => new Cell(this, id));
+        this.walk((row, col) => {
+            if (grid[row][col] > 0) {
+                this.cell(row, col).clue(grid[row][col] - 1);
+            }
+        });
+    }
+    solve() {
+        while (this.solveNakedSingle());
+        return this.grid;
+    }
+    solveNakedSingle() {
+        const cell = this.cells.find(c => !c.isSet && c.candidates.length == 1);
+        if (cell == null) return false;
+        console.log(`match << naked single >> ${cell.name} element ${cell.candidates[0]+1}`);
+        cell.clue(cell.candidates[0]);
+        this.grid[cell.row][cell.col] = cell.candidates[0]+1;
+        return true;
+    }
+    walk(fn) {
+        for (let row in [...Array(this.m).keys()]) {
+            for (let col in [...Array(this.m).keys()]) {
+                fn(row, col);
+            }
+        }
+    }
+}
+
+class Cell {
+    constructor(owner, id) {
+        this.owner = owner;
+        this.id = id;
+        this.row = Math.floor(this.id / this.owner.m);
+        this.col = this.id % this.owner.m;
+        this.box =
+            Math.floor(this.row / this.owner.n) * this.owner.n +
+            Math.floor(this.col / this.owner.n);
+        this.candidates = [...Array(this.owner.m).keys()];
+        this.name = `R${this.row+1}C${this.col+1}`;
+    }
+    value() {
+        if (!this.isSet) throw "no value set";
+        return this.candidates[0];
+    }
+    peers() {
+        const rowPeers = this.owner.row(this.row).filter(c => c.box != this.box);
+        const colPeers = this.owner.col(this.col).filter(c => c.box != this.box);
+        const boxPeers = this.owner.box(this.box).filter(c => c.id != this.id);
+        return rowPeers.concat(colPeers).concat(boxPeers);
+    }
+    clue(candidate) {
+        this.set(candidate);
+        this.isClue = true;
+    }
+    set(candidate) {
+        this.candidates = [candidate];
+        this.isSet = true;
+        for (let peer of this.peers()) {
+            peer.eliminate(candidate);
+        }
+    }
+    eliminate(candidate) {
+        this.candidates = this.candidates.filter(c => c != candidate);
+    }
+}
+
+console.log(sudoku_12(puzzle), "answer:", solution);
