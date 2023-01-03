@@ -277,3 +277,15 @@ function sudoku_6(pz) {
 }
 
 console.log(sudoku_6(puzzle), "answer:", solution);
+
+const sudoku_7 = puzzle =>
+    !puzzle.some(row => row.some(cell => cell > 9 || !cell)) ? puzzle
+        : sudoku(puzzle.reduce((_, row0, rowIdx0) => row0.reduce((_, cell0, colIdx0) =>
+            puzzle.map((row, rowIdx) => row.map((cell, colIdx) =>
+                cell0 <= 9 && (cell > 9 || !cell) &&
+                (rowIdx0 === rowIdx || colIdx0 === colIdx ||
+                    ~~(colIdx0 / 3) === ~~(colIdx / 3) && ~~(rowIdx0 / 3) === ~~(rowIdx / 3)
+                ) ? row[colIdx] = +`${cell || 123456789}`.replace(cell0, '') : cell)), []), []));
+
+console.log(sudoku_7(puzzle), "answer:", solution);
+
