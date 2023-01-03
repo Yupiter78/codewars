@@ -238,7 +238,7 @@ console.log(sudoku_4(puzzle), "answer:", solution);
 function sudoku_5(a, x= 0, y= 0) {
     function next(x, y) {
         if (++y === 9) x++, y = 0;
-        return x === 9 ? a : sudoku(a, x, y);
+        return x === 9 ? a : sudoku_5(a, x, y);
     }
     function getFree(x, y) {
         let [xx, yy] = [~~(x / 3) * 3, ~~(y / 3) * 3];
@@ -280,7 +280,7 @@ console.log(sudoku_6(puzzle), "answer:", solution);
 
 const sudoku_7 = puzzle =>
     !puzzle.some(row => row.some(cell => cell > 9 || !cell)) ? puzzle
-        : sudoku(puzzle.reduce((_, row0, rowIdx0) => row0.reduce((_, cell0, colIdx0) =>
+        : sudoku_7(puzzle.reduce((_, row0, rowIdx0) => row0.reduce((_, cell0, colIdx0) =>
             puzzle.map((row, rowIdx) => row.map((cell, colIdx) =>
                 cell0 <= 9 && (cell > 9 || !cell) &&
                 (rowIdx0 === rowIdx || colIdx0 === colIdx ||
@@ -352,3 +352,17 @@ function sudoku_9(puzzle) {
 }
 
 console.log(sudoku_9(puzzle), "answer:", solution);
+
+const sudoku_10 = (p, i= 0, [x, y] = [~~(i / 9), i % 9]) => {
+    const $ = (v, p, x, y) => !(p[x].includes(v) ||
+        p.some(r => r[y] === v) ||
+        p.filter((r, a) => a >= ~~(x / 3) * 3 && a < ~~(x / 3) * 3 + 3)
+            .some(r => [0, 1, 2].some(k => r[~~(y / 3) * 3 + k] === v)));
+    if(i > 80) return 1;
+    for (let v = 1; p[x][y] === 0 && v <= 9; (p[x][y] = 0), v++) {
+        if ($(v, p, x, y) && (p[x][y] = v) && sudoku_10(p, i + 1)) return p;
+    }
+    return p[x][y] ? sudoku(p, i + 1) : 0;
+}
+
+console.log(sudoku_10(puzzle), "answer:", solution);
