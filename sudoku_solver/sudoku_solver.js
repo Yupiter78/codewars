@@ -362,7 +362,32 @@ const sudoku_10 = (p, i= 0, [x, y] = [~~(i / 9), i % 9]) => {
     for (let v = 1; p[x][y] === 0 && v <= 9; (p[x][y] = 0), v++) {
         if ($(v, p, x, y) && (p[x][y] = v) && sudoku_10(p, i + 1)) return p;
     }
-    return p[x][y] ? sudoku(p, i + 1) : 0;
+    return p[x][y]?sudoku_10(p,i+1):0;
 }
 
 console.log(sudoku_10(puzzle), "answer:", solution);
+
+const sudoku_11 = rows => {
+    const cols   = _ => rows.map((_, i) => rows.map((_, j) => rows[j][i]));
+
+    const square = (i, j) => {
+        let idxI = ~~(i / 3) * 3;
+        let idxJ = ~~(j / 3) * 3;
+        return [].concat(...rows.slice(idxI, idxI + 3).map(row => row.slice(idxJ, idxJ + 3)))
+    };
+
+    while ([].concat(...rows).includes(0)) {
+        rows.forEach((row, i) => {
+            row.forEach((x, j) => {
+                if (x === 0) {
+                    let nums      = [...new Set([...rows[i], ...cols()[j], ...square(i, j)])];
+                    let possibles = [...Array(9)].map((_, i) => ++i).filter(n => !nums.includes(n));
+                    if (possibles.length === 1) row[j] = possibles[0];
+                }
+            });
+        });
+    }
+    return rows;
+};
+
+console.log(sudoku_11(puzzle), "answer:", solution);
