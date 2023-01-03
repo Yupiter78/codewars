@@ -315,3 +315,40 @@ function sudoku_8(puzzle) {
 }
 
 console.log(sudoku_8(puzzle), "answer:", solution);
+
+function getPos(puzzle, x, y) {
+    const hash = {};
+    for (let u = 0; u < 9; u++) hash[ puzzle[y][u] ] = 1;
+    for (let u = 0; u < 9; u++) hash[ puzzle[u][x] ] = 1;
+    for (let u = 0; u < 9; u++) hash[ puzzle[ 3 * ((y / 3) | 0) + ((u / 3) | 0) ][ 3 * ((x / 3) | 0) + (u % 3) ] ] = 1;
+
+    const poss = [];
+    for (let i = 1; i <= 9; i++) if (!(i in hash)) poss.push(i);
+    return poss;
+}
+
+function sudoku_9(puzzle) {
+    const indices = [];
+    let n;
+    for (n = 0; n < 81; n++) if (puzzle[(n / 9) | 0][n % 9] === 0) indices.push({ v: n, p: null, i: 0});
+
+    n = 0;
+    while (n < indices.length) {
+        const c = indices[n], y = (c.v / 9) | 0, x = c.v % 9;
+        c.p = c.p || getPos(puzzle, x, y);
+        if (c.i >= c.p.length) {
+            puzzle[y][x] = 0;
+            c.i = 0;
+            c.p = null;
+            n--;
+        } else {
+            puzzle[y][x] = c.p[c.i++];
+            n++;
+        }
+
+    }
+
+    return puzzle;
+}
+
+console.log(sudoku_9(puzzle), "answer:", solution);
