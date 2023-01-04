@@ -398,10 +398,11 @@ console.log(sudoku_11(puzzle), "answer:", solution);
 const sudoku_12 = puzzle => new Sudoku(puzzle).solve();
 
 class Sudoku {
-    cell(row, col) { return this.cells.find(c => c.row == row && c.col == col); }
-    row(i) { return this.cells.filter(c => c.row == i); }
-    col(i) { return this.cells.filter(c => c.col == i); }
-    box(i) { return this.cells.filter(c => c.box == i); }
+
+    cell = (row, col) => this.cells.find(c => c.row === row && c.col === col);
+    row(i) { return this.cells.filter(c => c.row === i); };
+    col(i) { return this.cells.filter(c => c.col === i); };
+    box(i) { return this.cells.filter(c => c.box === i); };
     constructor(grid) {
         this.grid = grid;
         this.m = this.grid.length;
@@ -409,17 +410,18 @@ class Sudoku {
         this.cells = [...Array(this.m ** 2).keys()]
             .map(id => new Cell(this, id));
         this.walk((row, col) => {
+
             if (grid[row][col] > 0) {
                 this.cell(row, col).clue(grid[row][col] - 1);
             }
         });
     }
     solve() {
-        while (this.solveNakedSingle());
+        while (this.solveNakedSingle()) {}
         return this.grid;
     }
     solveNakedSingle() {
-        const cell = this.cells.find(c => !c.isSet && c.candidates.length == 1);
+        const cell = this.cells.find(c => !c.isSet && c.candidates.length === 1);
         if (cell == null) return false;
         console.log(`match << naked single >> ${cell.name} element ${cell.candidates[0]+1}`);
         cell.clue(cell.candidates[0]);
@@ -429,7 +431,7 @@ class Sudoku {
     walk(fn) {
         for (let row in [...Array(this.m).keys()]) {
             for (let col in [...Array(this.m).keys()]) {
-                fn(row, col);
+                fn(Number(row), Number(col));
             }
         }
     }
@@ -447,19 +449,19 @@ class Cell {
         this.candidates = [...Array(this.owner.m).keys()];
         this.name = `R${this.row+1}C${this.col+1}`;
     }
-    value() {
+    /*value() {
         if (!this.isSet) throw "no value set";
         return this.candidates[0];
-    }
+    }*/
     peers() {
-        const rowPeers = this.owner.row(this.row).filter(c => c.box != this.box);
-        const colPeers = this.owner.col(this.col).filter(c => c.box != this.box);
-        const boxPeers = this.owner.box(this.box).filter(c => c.id != this.id);
+        const rowPeers = this.owner.row(this.row).filter(c => c.box !== this.box);
+        const colPeers = this.owner.col(this.col).filter(c => c.box !== this.box);
+        const boxPeers = this.owner.box(this.box).filter(c => c.id !== this.id);
         return rowPeers.concat(colPeers).concat(boxPeers);
     }
     clue(candidate) {
         this.set(candidate);
-        this.isClue = true;
+        // this.isClue = true;
     }
     set(candidate) {
         this.candidates = [candidate];
@@ -469,7 +471,7 @@ class Cell {
         }
     }
     eliminate(candidate) {
-        this.candidates = this.candidates.filter(c => c != candidate);
+        this.candidates = this.candidates.filter(c => c !== candidate);
     }
 }
 
