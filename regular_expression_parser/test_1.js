@@ -185,7 +185,7 @@ function findMatchingClosingBracketIndex(str, startIndex = 0) {
 }
 
 
-console.log(parseRegExp('ab|a'),
+/*console.log(parseRegExp('ab|a'),
     "should return Or( left: Str(regexpList : [Normal {char: 'a'}, " +
     "Normal {char: 'b'} ]), right: Normal {char: 'a'} )");
 
@@ -198,4 +198,5 @@ console.log(parseRegExp("a**"));
 console.log(parseRegExp("a("));
 console.log(parseRegExp("*"));
 console.log(parseRegExp("a|(a|a)"), "Or( Normal('a'), Or( Normal('a'), Normal('a') ) ) ");
-console.log(parseRegExp("(a|a)|a"), "Or( Or( Normal('a'), Normal('a') ), Normal('a') ) ");
+console.log(parseRegExp("(a|a)|a"), "Or( Or( Normal('a'), Normal('a') ), Normal('a') ) ");*/
+console.log(parseRegExp("NxR'!EKLT7CPuERF?2pTf0S>m  w?L1W+NC*F"));
