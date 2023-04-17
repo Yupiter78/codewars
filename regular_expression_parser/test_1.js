@@ -1,4 +1,4 @@
-
+const log = console.log;
 
 class Normal {
     constructor(char) {
@@ -31,13 +31,18 @@ function parseRegExp(str) {
     if (!str) return null;
     if (str.includes("|") && !str.includes("(")) {
         let index = str.indexOf("|");
-        return new Or(parseRegExp(str.slice(0, index)), parseRegExp(str.slice(index + 1)));
+        const left = parseRegExp(str.slice(0, index));
+        const right = parseRegExp(str.slice(index + 1));
+        if (JSON.stringify(left) === JSON.stringify(right)) return null;
+        if (JSON.stringify(left) === "null" || JSON.stringify(right) === "null") return null;
+        return new Or(left, right);
     }
     const regexpList = [];
 
     while (str.length > 0) {
         if (str[0] === '(') {
             let endIndex = findMatchingClosingParenIndex(str);
+            if (!endIndex) return null;
             let innerStr = str.slice(1, endIndex);
             regexpList.push(parseRegExp(innerStr));
             str = str.slice(endIndex + 1);
@@ -71,12 +76,15 @@ function parseRegExp(str) {
         } else {
 
             let sequence = parseSequence(str);
+            if (!sequence) return null;
             let normalObjects = sequence.split('').map(char => new Normal(char));
             regexpList.push(...normalObjects);
             str = str.slice(sequence.length);
         }
     }
-    if (regexpList.length === 1) {
+    if (regexpList.length === 0) {
+        return null;
+    } else if (regexpList.length === 1){
         return regexpList[0];
     } else {
         return new Str(regexpList);
@@ -93,6 +101,8 @@ function setLastObjectToZeroOrMore(prevRegExp, regexpList) {
             regexpList.push(new ZeroOrMore(prevRegExp));
         }
     } else {
+        if (!prevRegExp) return null;
+        if (prevRegExp instanceof ZeroOrMore)  return null;
         regexpList.push(new ZeroOrMore(prevRegExp));
     }
 }
@@ -103,7 +113,6 @@ function parseSequence(str) {
     while (endIndex < str.length && !isSpecialCharacter(str[endIndex])) {
         endIndex++;
     }
-
     return str.slice(0, endIndex);
 }
 
@@ -148,7 +157,7 @@ function findMatchingClosingParenIndex(str, startIndex = 0) {
             }
         }
     }
-    throw new Error('No matching closing parenthesis found');
+    return null;
 }
 
 
@@ -167,12 +176,16 @@ function findMatchingClosingBracketIndex(str, startIndex = 0) {
     throw new Error('No matching closing bracket found');
 }
 
+
 console.log(parseRegExp('ab|a'),
     "should return Or( left: Str(regexpList : [Normal {char: 'a'}, " +
     "Normal {char: 'b'} ]), right: Normal {char: 'a'} )");
 
 console.log(parseRegExp("a(b|c)*"),
-  "should return Str {regexpList: [Normal {char: 'a'}, " +
+    "should return Str {regexpList: [Normal {char: 'a'}, " +
     "ZeroOrMore {regexp: Or {left: Normal {char: 'b'}, right: Normal {char: 'c'}}}]}");
 
-console.log(parseRegExp("ab*"));
+console.log(parseRegExp("a|a|a"));
+console.log(parseRegExp("a**"));
+console.log(parseRegExp("a("));
+console.log(parseRegExp("*"));
