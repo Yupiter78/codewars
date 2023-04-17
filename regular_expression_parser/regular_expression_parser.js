@@ -36,6 +36,7 @@ function parseRegExp(str) {
     const regexpList = [];
 
     while (str.length > 0) {
+
         if (str[0] === '(') {
             let endIndex = findMatchingClosingParenIndex(str);
             let innerStr = str.slice(1, endIndex);
