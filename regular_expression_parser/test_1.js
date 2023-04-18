@@ -30,35 +30,46 @@ class Str {
 
     function parseRegExp(str) {
         if (!str) return null;
-        if (str[0] !== "|") {
-            if (str.includes("|") && !(str.includes("(") || str.includes(")") )) {
-                console.log("str:", str);
-                let index = str.indexOf("|");
-                let lastIndex = str.lastIndexOf("|");
+        if (str[0] === "|" || str.at(-1) === "|") return null;
+        if (str.includes("|")) {
 
-                if (index !== lastIndex && !str.includes("(") && !str.includes(")")) return null;
-                const left = parseRegExp(str.slice(0, index));
-                const right = parseRegExp(str.slice(index + 1));
-                return new Or(left, right);
-            }
             if (str.includes("|") && str.includes("(") && !str.includes(")")) return null;
             if (str.includes("|") && !str.includes("(") && str.includes(")")) return null;
             if (str.includes("|") && str.includes("(") && str.includes(")")) {
-                console.log("str:", str);
                 let openingBraceIndex = str.indexOf("(");
-                let closingBraceIndex = str.indexOf(")");
-                if (openingBraceIndex > closingBraceIndex) return null;
+                let indexOfLastClosingBrace = findMatchingClosingParenIndex(str, openingBraceIndex);
+                let indexOr = str.indexOf("|");
+                if (openingBraceIndex > indexOfLastClosingBrace) return null;
+
+                if (indexOr < openingBraceIndex || indexOr > indexOfLastClosingBrace) {
+                    const left = parseRegExp(str.slice(0, indexOr));
+                    const right = parseRegExp(str.slice(indexOr + 1));
+
+                    return new Or(left, right);
+                }
             }
+
+            if (!(str.includes("(") || str.includes(")") )){
+                let indexOr = str.indexOf("|");
+                let lastIndexOr = str.lastIndexOf("|");
+                if (indexOr !== lastIndexOr && !str.includes("(") && !str.includes(")")) return null;
+                const left = parseRegExp(str.slice(0, indexOr));
+                const right = parseRegExp(str.slice(indexOr + 1));
+                return new Or(left, right);
+            }
+
         }
 
         const regexpList = [];
 
         while (str.length > 0) {
             if (str[0] === '(') {
+
                 let endIndex = findMatchingClosingParenIndex(str);
                 if (!endIndex) return null;
                 let innerStr = str.slice(1, endIndex);
-                regexpList.push(parseRegExp(innerStr));
+                const nextStr = parseRegExp(innerStr);
+                regexpList.push(nextStr);
                 str = str.slice(endIndex + 1);
             } else if (str[0] === '|') {
 
@@ -82,9 +93,12 @@ class Str {
                 str = str.slice(sequence.length);
             }
         }
+
         if (regexpList.length === 0) {
             return null;
         } else if (regexpList.length === 1) {
+
+            if (regexpList[0] instanceof Or) return new Str(regexpList[0]);
             return regexpList[0];
         } else {
             return new Str(regexpList);
@@ -154,9 +168,17 @@ console.log(parseRegExp("|#Esxf@-f@/;'"));
 console.log(parseRegExp("}(g#pKvQ,Ox?ds<k^~9cYZ|%x}%b.f5ujE '"));
 console.log(parseRegExp("r,~#)~3O_G*lLxu=M\\vdDYCd~}`e`v|k"));
 console.log(parseRegExp("f72iP9|})[[(LCj12q_`.`w9Z^co"));*/
-console.log(parseRegExp("(.*(..lc)*vw|u)"));
+
+//console.log(parseRegExp("(.*(..lc)*vw|u)"));
 //Str([ Or( Str(
 // [ Normal('q'),
 // Or( Normal('y'),
 // Str([ Any, Or( Or( Normal('k'), Any ), Normal('u') ), Or( Normal('k'), Any ), ZeroOrMore(Normal('k')) ]) ) ]),
 // Normal('k') ), Any, Normal('f'), ZeroOrMore(Normal('l')) ])
+// console.log(parseRegExp("*|"));
+
+ // console.log(parseRegExp("(.*(..lc)*vw|u)"));
+// console.log(parseRegExp("((aa)|a)"));
+// console.log(parseRegExp("(a.*)|(bb)"));
+console.log(parseRegExp("a|(a|a)"));
+console.log(parseRegExp("(a|a)|a"));
