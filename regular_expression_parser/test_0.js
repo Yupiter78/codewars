@@ -29,53 +29,26 @@ class Str {
 
 
 function parseRegExp(str) {
-    console.log(str)
     if (!str) return null;
-    if (str[0] === "|" || str.at(-1) === "|") return null;
-    if (str.includes("|")) {
+    if (str[0] !== "|") {
+        if (str.includes("|") && !(str.includes("(") || str.includes(")") )) {
+            console.log("str:", str);
+            let index = str.indexOf("|");
+            let lastIndex = str.lastIndexOf("|");
 
+            if (index !== lastIndex && !str.includes("(") && !str.includes(")")) return null;
+            const left = parseRegExp(str.slice(0, index));
+            const right = parseRegExp(str.slice(index + 1));
+            return new Or(left, right);
+        }
         if (str.includes("|") && str.includes("(") && !str.includes(")")) return null;
         if (str.includes("|") && !str.includes("(") && str.includes(")")) return null;
         if (str.includes("|") && str.includes("(") && str.includes(")")) {
+            console.log("str:", str);
             let openingBraceIndex = str.indexOf("(");
-            let indexOfLastClosingBrace = findMatchingClosingParenIndex(str, openingBraceIndex);
-            let indexOr = str.indexOf("|");
-            let lastIndexOr = str.lastIndexOf("|");
-            if (openingBraceIndex > indexOfLastClosingBrace) return null;
-            if (indexOr !== lastIndexOr) {
-                if (indexOr < openingBraceIndex || indexOr > indexOfLastClosingBrace) {
-                    console.log("str_indexOr:", str);
-                    const left = parseRegExp(str.slice(0, indexOr));
-                    const right = parseRegExp(str.slice(indexOr + 1));
-
-                    return new Or(left, right);
-                }
-                if (lastIndexOr < openingBraceIndex || lastIndexOr > indexOfLastClosingBrace) {
-                    console.log("str_lastIndexOr:", str);
-                    const left = parseRegExp(str.slice(0, lastIndexOr));
-                    const right = parseRegExp(str.slice(lastIndexOr + 1));
-
-                    return new Or(left, right);
-                }
-            }
-
-            if (indexOr < openingBraceIndex || indexOr > indexOfLastClosingBrace) {
-                const left = parseRegExp(str.slice(0, indexOr));
-                const right = parseRegExp(str.slice(indexOr + 1));
-
-                return new Or(left, right);
-            }
+            let closingBraceIndex = str.indexOf(")");
+            if (openingBraceIndex > closingBraceIndex) return null;
         }
-
-        if (!(str.includes("(") || str.includes(")") )){
-            let indexOr = str.indexOf("|");
-            let lastIndexOr = str.lastIndexOf("|");
-            if (indexOr !== lastIndexOr && !str.includes("(") && !str.includes(")")) return null;
-            const left = parseRegExp(str.slice(0, indexOr));
-            const right = parseRegExp(str.slice(indexOr + 1));
-            return new Or(left, right);
-        }
-
     }
 
     const regexpList = [];
@@ -178,13 +151,9 @@ console.log(parseRegExp("|#Esxf@-f@/;'"));
 console.log(parseRegExp("}(g#pKvQ,Ox?ds<k^~9cYZ|%x}%b.f5ujE '"));
 console.log(parseRegExp("r,~#)~3O_G*lLxu=M\\vdDYCd~}`e`v|k"));
 console.log(parseRegExp("f72iP9|})[[(LCj12q_`.`w9Z^co"));*/
-//console.log(parseRegExp("(.*(..lc)*vw|u)"));
-
+console.log(parseRegExp("(.*(..lc)*vw|u)"));
 //Str([ Or( Str(
 // [ Normal('q'),
 // Or( Normal('y'),
 // Str([ Any, Or( Or( Normal('k'), Any ), Normal('u') ), Or( Normal('k'), Any ), ZeroOrMore(Normal('k')) ]) ) ]),
 // Normal('k') ), Any, Normal('f'), ZeroOrMore(Normal('l')) ])
-
-// console.log(parseRegExp("(&%X~[g%q,|l HP^Y,?<o0> HWVVU6Md5JcC)me|<iJrKm"));
-console.log(parseRegExp("LL2::L|nX'=_T*X460$.A)Q %i3or,(s~rOr+)nGsP2R"));
