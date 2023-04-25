@@ -30,7 +30,7 @@ function parseRegExp(str) {
     if (!str) return null;
     if (str[0] === "|" || str.at(-1) === "|" || str[0] === "*") return null;
     console.log("str_parseRegExp:", str);
-    /*if (str.includes("|")) {
+    if (str.includes("|")) {
 
         if (str.includes("|") && str.includes("(") && !str.includes(")")) return null;
         if (str.includes("|") && !str.includes("(") && str.includes(")")) return null;
@@ -59,7 +59,7 @@ function parseRegExp(str) {
             return new Or(left, right);
         }
 
-    }*/
+    }
 
     const regexpList = [];
 

@@ -135,7 +135,7 @@ function validationOr(str) {
 // console.log(parseRegExp("(d.((.|(p*.|(g*|.)))|q.*)*|v)*"));
 // console.log(parseRegExp("(d.((.|(p*.|(g*|.)))|q.*)*|v)*"));
 
-//console.log("_____________", parseRegExp("(a)b|c"));
+//console.log(parseRegExp("(a)b|c"));
 // {type: "Or", left: {type: "Str", regexpList: [{type: "Normal", char: "a"},
 // {type: "Normal", char: "b"}]} , right: {type: "Normal", char: "c"}}
 // console.log("_____________", parseRegExp("a|b"));
