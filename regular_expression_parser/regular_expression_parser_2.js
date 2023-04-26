@@ -1,3 +1,31 @@
+class Normal {
+    constructor(char) {
+        this.char = char;
+    }
+}
+
+class Any {}
+
+class ZeroOrMore {
+    constructor(regexp) {
+        this.regexp = regexp;
+    }
+}
+
+class Or {
+    constructor(left, right) {
+        this.left = left;
+        this.right = right;
+    }
+}
+
+class Str {
+    constructor(regexpList) {
+        this.regexpList = regexpList;
+    }
+}
+
+
 function parseRegExp(s) {
     // simple recursive descent parser
     let i = 0;
@@ -62,12 +90,12 @@ function parseRegExp(s) {
 // {type: "Normal", char: "b"}]} , right: {type: "Normal", char: "c"}}
 // console.log("_____________", parseRegExp("a|b"));
 // console.log("_____________", parseRegExp("((a|b)*)*|cds|(a)*"));
-console.log("_____________", parseRegExp("a|b|c"));
-console.log("_____________", parseRegExp("a**"));
+console.log("null", parseRegExp("a|b|c"));
+console.log("null", parseRegExp("a**"));
  console.log("_____________", parseRegExp("a|(b|c)"));
 // console.log("_____________", "NULL", parseRegExp("a|b|c"));
 // console.log("_____________", parseRegExp("abc"));
 // console.log("_____________", parseRegExp("(abc)*"));
 // console.log("_____________", parseRegExp("a*|(ab|c)*|s"));
-console.log("_____________", parseRegExp("HzF0>odtFZO3M<Ic_H|D2t]r?y2?S&)HY~Al9@(2Zb"));
-console.log("_____________", parseRegExp("(a|)"));
+console.log("null", parseRegExp("HzF0>odtFZO3M<Ic_H|D2t]r?y2?S&)HY~Al9@(2Zb"));
+console.log("null", parseRegExp("(a|)"));

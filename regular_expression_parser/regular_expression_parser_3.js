@@ -1,9 +1,37 @@
+class Normal {
+    constructor(char) {
+        this.char = char;
+    }
+}
+
+class Any {}
+
+class ZeroOrMore {
+    constructor(regexp) {
+        this.regexp = regexp;
+    }
+}
+
+class Or {
+    constructor(left, right) {
+        this.left = left;
+        this.right = right;
+    }
+}
+
+class Str {
+    constructor(regexpList) {
+        this.regexpList = regexpList;
+    }
+}
+
 function parseRegExp(s) {
     const eof = () => ! tokens.length ;
     const satisfy = pred => pred(tokens[0]) && tokens.shift() ;
     const char = c => satisfy( v => v===c ) ;
     const pParen = (e) => char('(') && ( e = pOr() || _|_ ) && ( char(')') || _|_ ) && e ;
-    /*Oh, that. That's a way to generate an error with an expression ( throw is a statement, not an operator, so can't be used in an expression ).
+    /*Oh, that. That's a way to generate an error with an expression ( throw is a statement, not an operator,
+    so can't be used in an expression ).
 
 _ is a valid identifier, and it's used as an undefined reference. | is bitwise OR,
 which makes _|_ a legal expression, which looks like Haskell bottom
@@ -26,7 +54,7 @@ Or any undefined identifier. But I like this one. :P*/
 // console.log(parseRegExp("(d.((.|(p*.|(g*|.)))|q.*)*|v)*"));
 // console.log(parseRegExp("(d.((.|(p*.|(g*|.)))|q.*)*|v)*"));
 
-//console.log(parseRegExp("(a)b|c"));
+console.log(parseRegExp("(a)b|c"));
 // {type: "Or", left: {type: "Str", regexpList: [{type: "Normal", char: "a"},
 // {type: "Normal", char: "b"}]} , right: {type: "Normal", char: "c"}}
 // console.log("_____________", parseRegExp("a|b"));
