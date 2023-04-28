@@ -133,7 +133,7 @@ function validationOr(str) {
 // console.log(parseRegExp("LL2::L|nX'=_T*X460$.A)Q %i3or,(s~rOr+)nGsP2R"));
 // console.log(parseRegExp('*, +\"6O_.*$~&\\'));
 // console.log(parseRegExp("(d.((.|(p*.|(g*|.)))|q.*)*|v)*"));
-// console.log(parseRegExp("(d.((.|(p*.|(g*|.)))|q.*)*|v)*"));
+ console.log(parseRegExp("(d.((.|(p*.|(g*|.)))|q.*)*|v)*"));
 
 //console.log(parseRegExp("(a)b|c"));
 // {type: "Or", left: {type: "Str", regexpList: [{type: "Normal", char: "a"},
