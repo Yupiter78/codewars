@@ -68,12 +68,13 @@ function parseRegExp(str) {
         }
     }
 
-    if (regexpList.length === 0) {
-        return null;
-    } else if (regexpList.length === 1) {
-        return regexpList[0];
-    } else {
-        return new Str(regexpList);
+    switch (regexpList.length) {
+        case 0:
+            return null;
+        case 1:
+            return regexpList[0];
+        default:
+            return new Str(regexpList);
     }
 }
 function setLastObjectToZeroOrMore(prevRegExp, regexpList) {
