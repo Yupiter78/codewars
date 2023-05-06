@@ -1,7 +1,7 @@
-var BODY = 1;
-var WALL = 0;
-var UNKNOWN = -1;
-var DIRECTIONS = {
+const BODY = 1;
+const WALL = 0;
+const UNKNOWN = -1;
+const DIRECTIONS = {
     0: Point(1, 0),
     1: Point(0, 1),
     2: Point(-1, 0),
@@ -16,9 +16,9 @@ function Point(x, y) {
     };
 }
 
-function craeteArrayWith(len, initData) {
-    var arr = new Array(len);
-    for (var i = 0; i < len; i++) {
+function createArrayWith(len, initData) {
+    const arr = new Array(len);
+    for (let i = 0; i < len; i++) {
         arr[i] = initData.call ? initData.call() : initData;
     }
     return arr;
@@ -31,12 +31,12 @@ function Snake(world) {
     this.direction = 0;
 
     this.next = function() {
-        var nextPoint = this.currentPosition.add(DIRECTIONS[this.direction]);
+        const nextPoint = this.currentPosition.add(DIRECTIONS[this.direction]);
         return this.world[nextPoint.y] && this.world[nextPoint.y][nextPoint.x];
     }
 
     this.walk = function() {
-        var success = false;
+        let success = false;
         if (this.nextWillHitTheWall()) {
             this.nextDirection();
         }
@@ -49,7 +49,7 @@ function Snake(world) {
     };
 
     this.mark = function() {
-        var pointForWall = this.currentPosition.add(DIRECTIONS[(this.direction + 1) % 4]);
+        const pointForWall = this.currentPosition.add(DIRECTIONS[(this.direction + 1) % 4]);
         if (!this.nextWillHitTheWall()) {
             this.world[pointForWall.y][pointForWall.x] = WALL;
         }
@@ -67,11 +67,11 @@ function Snake(world) {
 }
 
 function spiralize(n) {
-    var world = craeteArrayWith(n, function() {
-        return craeteArrayWith(n, UNKNOWN);
+    const world = createArrayWith(n, function() {
+        return createArrayWith(n, UNKNOWN);
     });
 
-    var snake = new Snake(world);
+    const snake = new Snake(world);
 
     snake.mark();
     while(snake.walk()) {
@@ -80,3 +80,21 @@ function spiralize(n) {
 
     return world;
 }
+
+console.log(spiralize(5)); // [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]]
+
+console.log(spiralize(10));
+
+/*
+ [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 0, 1, 0, 1],
+    [1, 0, 1, 0, 0, 1, 0, 1, 0, 1],
+    [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]*/
