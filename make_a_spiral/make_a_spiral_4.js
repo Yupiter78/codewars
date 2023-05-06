@@ -1,15 +1,11 @@
-function spiralize(size) {
-    if (size === 2) return [ [1,1], [0,1] ];
-    if (size === 3) return [ [1,1,1], [0,0,1], [1,1,1] ];
-    let base = spiralize(size-2);
-    const res = [[],[]];
-    for (let i = 0; i < size; i++) (res[0].push(1)) && (res[1].push(0));
-    res[1][size-1] = 1;
-    for (let i = size-3; i >= 0; i--) {
-        res.push(base[i].reverse().concat([0,1]));
+const spiralize = n =>{
+    const a = Array(n).fill(0).map(_ => Array(n))
+    for (let y = 0, c = 1; y < n/2; y++, c = 1-c) {
+        for (let x = y; x < n -y; x++)
+            a[y][x] = a[x][n-1 -y] = a[n-1 -y][n-1 -x] = a[n-1 -x][y] = c
+        if (y+ !(n%4) < n/2) a[y+1][y] = 1-c
     }
-    res[size-1][size-2] = 1;
-    return res;
+    return a
 }
 
 console.log(spiralize(5)); // [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]]
