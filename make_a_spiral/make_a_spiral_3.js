@@ -11,18 +11,23 @@
 //  1             1    1             1    1             1
 //  1 1 1 1 1 1 1 1    1 1 1 1 1 1 1 1    1 1 1 1 1 1 1 1
 
-const spiralize = (size) =>
-
-    Array.from({length: size}, () => Array.from({length: size}))
+const spiralize = (size) => {
+    const getIndex = (idx, size) => (idx < size / 2) ? idx : size - 1 - idx;
+    return Array.from({length: size}, () => new Array(size).fill(0))
         .map( (row, rowIdx) => row.map( (col, colIdx) => {
+
             const shouldReverse = rowIdx <= size / 2 - 1 + Math.sign(size % 4) &&
                 rowIdx - colIdx === 1;
-            const rowIdxMirror = (rowIdx < size / 2) ? rowIdx : size - 1 - rowIdx,
-                colIdxMirror = (colIdx < size / 2) ? colIdx : size - 1 - colIdx;
+            const rowIdxMirror = getIndex(rowIdx, size),
+                colIdxMirror = getIndex(colIdx, size);
             return rowIdxMirror % 2 && rowIdxMirror <= colIdxMirror ||
             colIdxMirror % 2 && rowIdxMirror >= colIdxMirror ?
-                (0 - shouldReverse) ** 2 : 1 - shouldReverse;
-        }));
+                Number(shouldReverse) : Number(!shouldReverse);
+
+        } ) );
+}
+
+
 
 console.log(spiralize(5)); // [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]]
 
