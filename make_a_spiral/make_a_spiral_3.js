@@ -15,7 +15,7 @@ const spiralize = (size) => {
     const getIndex = (idx, size) => (idx < size / 2) ? idx : size - 1 - idx;
     return Array.from({length: size}, () => new Array(size).fill(0))
         .map( (row, rowIdx) => row.map( (col, colIdx) => {
-
+4
             const shouldReverse = rowIdx <= size / 2 - 1 + Math.sign(size % 4) &&
                 rowIdx - colIdx === 1;
             const rowIdxMirror = getIndex(rowIdx, size),
